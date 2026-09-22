@@ -64,7 +64,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;overflow-x:hidden}
-body.menu-open{overflow:hidden}
+body.menu-open{overflow:hidden;touch-action:none}
 a{color:inherit}
 img{max-width:100%;display:block}
 button{font:inherit}
@@ -97,7 +97,29 @@ body.menu-open .header{background:#01060c!important;backdrop-filter:none!importa
 .lang button{height:100%;min-width:42px;border:0;background:transparent;color:#8798a8;font-size:9px;font-weight:800;letter-spacing:.1em;cursor:pointer}
 .lang button.active{background:var(--blue);color:#fff}
 .menu-btn{display:none;width:42px;height:42px;border:1px solid var(--line);background:rgba(0,0,0,.2);color:#fff;cursor:pointer;position:relative;z-index:10002}
-.menu-btn span{display:block;width:18px;height:1px;background:white;margin:4px auto}
+.menu-btn span{display:block;width:18px;height:1px;background:white;margin:4px auto;transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .18s ease}
+body.menu-open .menu-btn span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+body.menu-open .menu-btn span:nth-child(2){opacity:0}
+body.menu-open .menu-btn span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+
+/* FLAGSHIP INTRO */
+.brand-intro{position:fixed;z-index:30000;inset:0;display:grid;place-items:center;background:#01050a;opacity:0;visibility:hidden;pointer-events:none;overflow:hidden;will-change:clip-path,opacity}
+.brand-intro.play{opacity:1;visibility:visible;pointer-events:auto;animation:introExit .72s cubic-bezier(.77,0,.18,1) 1.62s forwards}
+.brand-intro:before{content:"";position:absolute;width:min(780px,90vw);height:min(780px,90vw);border-radius:50%;background:radial-gradient(circle,rgba(7,140,255,.20) 0%,rgba(7,140,255,.05) 34%,transparent 70%);filter:blur(10px);opacity:0;transform:scale(.68);animation:introGlow 1.25s ease .12s forwards}
+.brand-intro:after{content:"";position:absolute;top:0;bottom:0;width:1px;left:50%;background:linear-gradient(transparent,rgba(45,182,255,.95),transparent);box-shadow:0 0 28px rgba(7,140,255,.85);opacity:0;transform:translateX(-50%) scaleY(.25);animation:introBeam .85s ease .18s forwards}
+.intro-core{position:relative;z-index:2;text-align:center;display:grid;justify-items:center;padding:24px}
+.intro-logo{width:min(320px,66vw);opacity:0;filter:blur(7px);transform:scale(.9);animation:introLogo .68s cubic-bezier(.2,.8,.2,1) .16s forwards}
+.intro-rule{height:1px;width:0;margin-top:24px;background:linear-gradient(90deg,transparent,var(--blue2),transparent);box-shadow:0 0 18px rgba(7,140,255,.7);animation:introRule .6s ease .62s forwards}
+.intro-tag{margin-top:14px;font-size:9px;letter-spacing:.38em;text-transform:uppercase;color:#8ea6ba;opacity:0;transform:translateY(8px);animation:introTag .5s ease .84s forwards}
+.intro-word{position:absolute;left:50%;bottom:7vh;transform:translateX(-50%);white-space:nowrap;color:rgba(255,255,255,.11);font-size:clamp(46px,9vw,130px);font-weight:950;letter-spacing:-.06em;text-transform:uppercase;opacity:0;animation:introWord .55s ease 1.02s forwards}
+@keyframes introLogo{to{opacity:1;filter:blur(0);transform:scale(1)}}
+@keyframes introGlow{0%{opacity:0;transform:scale(.68)}55%{opacity:1}100%{opacity:.55;transform:scale(1)}}
+@keyframes introBeam{0%{opacity:0;transform:translateX(-50%) scaleY(.2)}45%{opacity:1}100%{opacity:0;transform:translateX(-50%) scaleY(1)}}
+@keyframes introRule{to{width:min(250px,56vw)}}
+@keyframes introTag{to{opacity:1;transform:none}}
+@keyframes introWord{to{opacity:1}}
+@keyframes introExit{0%{clip-path:inset(0 0 0 0);opacity:1}100%{clip-path:inset(0 0 100% 0);opacity:1}}
+.brand-intro.done{display:none}
 
 /* HERO */
 .hero{min-height:100svh;position:relative;display:flex;align-items:flex-end;overflow:hidden;background:#02070d}
@@ -265,10 +287,11 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
 
 /* RESPONSIVE */
 @media(max-width:1100px){
-  .nav{display:none}
+  .header.scrolled{background:rgba(1,6,12,.96);backdrop-filter:none;-webkit-backdrop-filter:none}
+  .nav{position:fixed;z-index:10001;display:flex;flex-direction:column;align-items:flex-start;gap:0;top:0;left:0;right:0;bottom:0;padding:98px 22px 30px;background:#01060c;overflow-y:auto;overscroll-behavior:contain;opacity:0;visibility:hidden;pointer-events:none;transform:translate3d(0,-8px,0);transition:opacity .22s ease,transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s linear .28s;will-change:opacity,transform;contain:layout paint}
+  .nav.open{opacity:1;visibility:visible;pointer-events:auto;transform:translate3d(0,0,0);transition:opacity .22s ease,transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s}
   .menu-btn{display:block}
-  .nav.open{position:fixed;z-index:10001;display:flex;flex-direction:column;align-items:flex-start;gap:0;top:0;left:0;right:0;bottom:0;padding:98px 22px 30px;background:#01060c;backdrop-filter:none;-webkit-backdrop-filter:none;overflow-y:auto;overscroll-behavior:contain}
-  .nav.open a{width:100%;padding:18px 0;border-bottom:1px solid var(--line);font-size:11px}
+  .nav a{width:100%;padding:18px 0;border-bottom:1px solid var(--line);font-size:11px}
   .hero-content{width:min(790px,86vw)}
   .hero-side{display:none}
   .gallery{grid-template-columns:1fr 1fr;grid-template-rows:430px 300px}
@@ -422,12 +445,22 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
   .visit-actions .btn:last-child{grid-column:auto}
 }
 @media(prefers-reduced-motion:reduce){
+  .brand-intro{display:none!important}
   html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}
   .media-card img,.team-card img,.btn,.price-card,.store-link{transition:none}
 }
 </style>
 </head>
 <body>
+
+<div class="brand-intro" id="brandIntro" aria-hidden="true">
+  <div class="intro-core">
+    <img class="intro-logo" src="https://forcefitnesscy.com/force-logo-white.png" alt="">
+    <div class="intro-rule"></div>
+    <div class="intro-tag">TRAIN · BELONG · EVOLVE</div>
+  </div>
+  <div class="intro-word">A STRONGER YOU.</div>
+</div>
 
 <header class="header" id="header">
   <div class="wrap header-inner">
@@ -688,6 +721,22 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
   var header=document.getElementById("header");
   function onScroll(){header.classList.toggle("scrolled",window.scrollY>30)}
   onScroll();window.addEventListener("scroll",onScroll,{passive:true});
+
+  var brandIntro=document.getElementById("brandIntro");
+  var reduceIntro=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var seenIntro=false;
+  try{seenIntro=sessionStorage.getItem("force-intro-seen")==="1"}catch(e){}
+  if(brandIntro&&!reduceIntro&&!seenIntro&&window.scrollY<8){
+    requestAnimationFrame(function(){
+      brandIntro.classList.add("play");
+      setTimeout(function(){
+        brandIntro.classList.add("done");
+        try{sessionStorage.setItem("force-intro-seen","1")}catch(e){}
+      },2380);
+    });
+  }else if(brandIntro){
+    brandIntro.classList.add("done");
+  }
 
   var menuBtn=document.getElementById("menuBtn"),nav=document.getElementById("nav");
   menuBtn.addEventListener("click",function(){nav.classList.toggle("open");document.body.classList.toggle("menu-open")});
