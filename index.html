@@ -66,7 +66,7 @@ linear-gradient(180deg,rgba(1,5,10,.35),rgba(1,5,10,.06) 45%,#02070d 100%)}
 .hero-content{position:relative;z-index:4;padding:160px 0 86px;width:min(790px,70vw)}
 .hero-loc{display:flex;gap:10px;align-items:center;margin-bottom:30px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#c1d0dd}
 .hero-loc i{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 18px var(--blue)}
-.hero h1{font-size:clamp(68px,9.3vw,148px);line-height:.78;letter-spacing:-.075em;text-transform:uppercase;margin:0;font-weight:950}
+.hero h1{font-size:clamp(66px,8.5vw,136px);line-height:.8;letter-spacing:-.07em;text-transform:uppercase;margin:0;font-weight:950}
 .hero h1 span{display:block;color:var(--blue);text-shadow:0 0 42px rgba(7,140,255,.22)}
 .hero-sub{font-size:clamp(16px,1.8vw,23px);line-height:1.55;max-width:650px;color:#c0ccd8;margin:28px 0 34px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
@@ -116,7 +116,11 @@ linear-gradient(#02070d,#040b12)}
 linear-gradient(180deg,#06111d 0%,#02070d 100%);
 border-top:1px solid var(--line)}
 .membership-head{display:flex;align-items:end;justify-content:space-between;gap:40px;margin-bottom:42px}
-.price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.price-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:12px}
+.price-card{grid-column:span 2}
+.price-card:nth-child(5){grid-column:2/span 2}
+.price-card:nth-child(6){grid-column:4/span 2}
+.price-card:nth-child(7){grid-column:6/span 2}
 .price-card{position:relative;min-height:220px;padding:25px;background:linear-gradient(145deg,rgba(255,255,255,.047),rgba(255,255,255,.018));border:1px solid var(--line);overflow:hidden;transition:.25s}
 .price-card:hover{border-color:rgba(7,140,255,.48);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.25)}
 .price-card.featured{background:linear-gradient(145deg,rgba(7,140,255,.13),rgba(255,255,255,.02));border-color:rgba(7,140,255,.35)}
@@ -153,11 +157,12 @@ radial-gradient(circle at 18% 20%,rgba(7,140,255,.11),transparent 25%),
 .offer{position:absolute;z-index:2;left:28px;right:28px;bottom:28px}
 .offer .big{font-size:clamp(38px,5vw,70px);line-height:.9;letter-spacing:-.055em;text-transform:uppercase;font-weight:950}
 .offer .big span{color:var(--blue)}
-.offer p{font-size:12px;color:#b6c2cd;margin:14px 0 0}
+.offer-price{margin:14px 0 6px;font-size:15px;font-weight:900;letter-spacing:.08em;color:#fff;text-transform:uppercase}
+.offer p{font-size:11px;color:#b6c2cd;margin:6px 0 0}
 .merch-caption{position:absolute;z-index:2;left:20px;bottom:18px;font-size:9px;text-transform:uppercase;letter-spacing:.16em;font-weight:800}
 
 /* MEMBER ACCESS */
-.member-access{background:#02070d}
+.member-access{background:#02070d;padding-top:72px;padding-bottom:84px}
 .member-box{position:relative;overflow:hidden;border:1px solid rgba(7,140,255,.26);background:
 linear-gradient(115deg,rgba(7,140,255,.13),rgba(255,255,255,.02) 42%,rgba(255,255,255,.01));
 padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:center}
@@ -176,7 +181,7 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
 .member-feature span{display:block;color:#7e8f9f;font-size:11px;line-height:1.5;margin-top:6px}
 
 /* VISIT */
-.visit{padding-top:0;background:#02070d}
+.visit{padding:0;background:#02070d}
 .visit-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .visit-image{min-height:580px}
 .visit-image img{width:100%;height:100%;object-fit:cover}
@@ -185,7 +190,14 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
 .hours-row{display:flex;justify-content:space-between;gap:25px;padding:15px 0;border-bottom:1px solid var(--line);font-size:12px}
 .hours-row span{color:#8091a1}
 .hours-row b{font-weight:700}
-.visit-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.visit-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.visit-meta-card{padding:14px 16px;border:1px solid var(--line);background:rgba(255,255,255,.018)}
+.visit-meta-card b{display:block;font-size:10px;letter-spacing:.11em;text-transform:uppercase}
+.visit-meta-card span{display:block;margin-top:5px;color:#7f91a1;font-size:11px;line-height:1.45}
+.closure-note{margin-top:16px;padding:14px 16px;border-left:2px solid var(--blue);background:rgba(7,140,255,.07)}
+.closure-note b{display:block;color:#dcecff;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.closure-note span{display:block;margin-top:6px;color:#8ea1b1;font-size:11px;line-height:1.55}
+.visit-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 
 /* FOOTER */
 .footer{padding:38px 0;background:#010408;border-top:1px solid rgba(255,255,255,.06)}
@@ -200,6 +212,7 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
+.parallax-media{will-change:transform;transform:translateZ(0) scale(1.035)}
 
 /* RESPONSIVE */
 @media(max-width:1100px){
@@ -216,6 +229,7 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
   .performance-image:after{background:linear-gradient(180deg,transparent 65%,#03080e)}
   .performance-copy{padding-top:30px}
   .price-grid{grid-template-columns:repeat(2,1fr)}
+  .price-card{grid-column:auto!important}
   .member-box{grid-template-columns:1fr}
 }
 @media(max-width:760px){
@@ -245,6 +259,8 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
   .visit-grid{grid-template-columns:1fr}
   .visit-image{min-height:420px}
   .visit-content{padding:50px 24px}
+  .visit-meta{grid-template-columns:1fr}
+  .parallax-media{transform:none!important}
   .footer-grid{display:block}
   .footer-right{text-align:left;margin-top:26px}
 }
@@ -342,7 +358,7 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
 
   <section class="performance">
     <div class="performance-grid">
-      <div class="performance-image reveal"><img src="force-weighted-pull-up-hero.png" alt="Strength training at Force Fitness Club" loading="lazy"></div>
+      <div class="performance-image reveal"><img class="parallax-media" src="force-weighted-pull-up-hero.png" alt="Strength training at Force Fitness Club" loading="lazy"></div>
       <div class="performance-copy reveal">
         <div>
           <div class="eyebrow" data-el="TRAIN WITH PURPOSE" data-en="TRAIN WITH PURPOSE">TRAIN WITH PURPOSE</div>
@@ -393,7 +409,7 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
           <div class="team-info">
             <h3>Savvas</h3>
             <div class="team-role" data-el="OWNER · ELITE PERSONAL TRAINER" data-en="OWNER · ELITE PERSONAL TRAINER">OWNER · ELITE PERSONAL TRAINER</div>
-            <p data-el="Ιδιοκτήτης του FORCE FITNESS CLUB, με πτυχία BSc στην Επιστήμη του Αθλητισμού και στη Διοίκηση Επιχειρήσεων. Elite Personal Trainer και Fitness & Bodybuilding Coach με εξειδίκευση στην υγεία, τη δύναμη και την απόδοση." data-en="Owner of FORCE FITNESS CLUB, holding BSc degrees in Sport Science and Business Administration. Elite Personal Trainer and Fitness & Bodybuilding Coach, specialising in health, strength and performance.">Ιδιοκτήτης του FORCE FITNESS CLUB, με πτυχία BSc στην Επιστήμη του Αθλητισμού και στη Διοίκηση Επιχειρήσεων. Elite Personal Trainer και Fitness & Bodybuilding Coach με εξειδίκευση στην υγεία, τη δύναμη και την απόδοση.</p>
+            <p data-el="BSc Sport Science & Business Administration. Elite Personal Trainer και Fitness & Bodybuilding Coach με εξειδίκευση στην υγεία, τη δύναμη και την απόδοση." data-en="BSc Sport Science & Business Administration. Elite Personal Trainer and Fitness & Bodybuilding Coach specialising in health, strength and performance.">Ιδιοκτήτης του FORCE FITNESS CLUB, με πτυχία BSc στην Επιστήμη του Αθλητισμού και στη Διοίκηση Επιχειρήσεων. Elite Personal Trainer και Fitness & Bodybuilding Coach με εξειδίκευση στην υγεία, τη δύναμη και την απόδοση.</p>
           </div>
         </article>
         <article class="team-card reveal">
@@ -401,7 +417,7 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
           <div class="team-info">
             <h3>Vasiliki</h3>
             <div class="team-role" data-el="PERSONAL TRAINER · EXERCISE REHABILITATION" data-en="PERSONAL TRAINER · EXERCISE REHABILITATION">PERSONAL TRAINER · EXERCISE REHABILITATION</div>
-            <p data-el="Απόφοιτη BSc Sport Science και έμπειρη Personal Trainer, με εξειδίκευση στην αποκατάσταση μέσω άσκησης και στο elite personal training. Συνδυάζει επιστημονική γνώση και πρακτική εμπειρία για ασφαλή πρόοδο και αποτελέσματα με διάρκεια." data-en="BSc Sport Science graduate and experienced personal trainer, specialising in exercise rehabilitation and elite personal training. She combines scientific knowledge with practical expertise to improve performance, support safe recovery and achieve lasting results.">Απόφοιτη BSc Sport Science και έμπειρη Personal Trainer, με εξειδίκευση στην αποκατάσταση μέσω άσκησης και στο elite personal training. Συνδυάζει επιστημονική γνώση και πρακτική εμπειρία για ασφαλή πρόοδο και αποτελέσματα με διάρκεια.</p>
+            <p data-el="BSc Sport Science. Personal Trainer με εξειδίκευση στην αποκατάσταση μέσω άσκησης και στο elite personal training, με έμφαση στην ασφαλή πρόοδο και τα αποτελέσματα με διάρκεια." data-en="BSc Sport Science. Personal Trainer specialising in exercise rehabilitation and elite personal training, with a focus on safe progress, performance and lasting results.">Απόφοιτη BSc Sport Science και έμπειρη Personal Trainer, με εξειδίκευση στην αποκατάσταση μέσω άσκησης και στο elite personal training. Συνδυάζει επιστημονική γνώση και πρακτική εμπειρία για ασφαλή πρόοδο και αποτελέσματα με διάρκεια.</p>
           </div>
         </article>
       </div>
@@ -420,7 +436,7 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
           <div class="offer">
             <div class="tag" data-el="LIMITED OFFER" data-en="LIMITED OFFER">LIMITED OFFER</div>
             <div class="big"><span data-el="ΑΓΟΡΑΣΕ 2," data-en="BUY 2,">ΑΓΟΡΑΣΕ 2,</span><br><span data-el="ΠΑΡΕ 1 ΔΩΡΟ." data-en="GET 1 FREE.">ΠΑΡΕ 1 ΔΩΡΟ.</span></div>
-            <p data-el="2 T-Shirts €16 · Πάρε ένα 3ο T-Shirt δωρεάν. Μέχρι εξαντλήσεως αποθεμάτων · Τα μεγέθη υπόκεινται σε διαθεσιμότητα." data-en="2 T-Shirts €16 · Take a 3rd T-Shirt FREE. While stocks last · Sizes subject to availability.">2 T-Shirts €16 · Πάρε ένα 3ο T-Shirt δωρεάν. Μέχρι εξαντλήσεως αποθεμάτων · Τα μεγέθη υπόκεινται σε διαθεσιμότητα.</p>
+            <div class="offer-price">2 T-SHIRTS · €16</div><p data-el="Πάρε ένα 3ο T-Shirt δωρεάν. Μέχρι εξαντλήσεως αποθεμάτων · Τα μεγέθη υπόκεινται σε διαθεσιμότητα." data-en="Take a 3rd T-Shirt FREE. While stocks last · Sizes subject to availability.">Πάρε ένα 3ο T-Shirt δωρεάν. Μέχρι εξαντλήσεως αποθεμάτων · Τα μεγέθη υπόκεινται σε διαθεσιμότητα.</p>
           </div>
         </div>
         <div class="merch-side">
@@ -460,19 +476,28 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
 
   <section class="section visit" id="visit">
     <div class="visit-grid">
-      <div class="visit-image reveal"><img src="force-fitness-club-exterior-cinematic.png" alt="Force Fitness Club exterior in Kiti" loading="lazy"></div>
+      <div class="visit-image reveal"><img class="parallax-media" src="force-fitness-club-exterior-cinematic.png" alt="Force Fitness Club exterior in Kiti" loading="lazy"></div>
       <div class="visit-content reveal">
         <div class="eyebrow" data-el="VISIT FORCE" data-en="VISIT FORCE">VISIT FORCE</div>
         <h2 class="section-title"><span data-el="KITI." data-en="KITI.">KITI.</span><br><span class="blue" data-el="LARNACA." data-en="LARNACA.">LARNACA.</span></h2>
         <p class="section-copy" data-el="Έλα να γνωρίσεις τον χώρο, την ομάδα και τον τρόπο που προπονούμαστε στο FORCE." data-en="Come experience the space, the team and the way we train at FORCE.">Έλα να γνωρίσεις τον χώρο, την ομάδα και τον τρόπο που προπονούμαστε στο FORCE.</p>
+        <div class="visit-meta">
+          <div class="visit-meta-card"><b data-el="ΤΟΠΟΘΕΣΙΑ" data-en="LOCATION">ΤΟΠΟΘΕΣΙΑ</b><span>Dromolaxias 30 · Kiti 7550 · Cyprus</span></div>
+          <div class="visit-meta-card"><b data-el="ΑΝΕΤΟΣ ΧΩΡΟΣ ΣΤΑΘΜΕΥΣΗΣ" data-en="SPACIOUS PARKING">ΑΝΕΤΟΣ ΧΩΡΟΣ ΣΤΑΘΜΕΥΣΗΣ</b><span data-el="Εύκολη πρόσβαση με άνετο χώρο στάθμευσης για τα μέλη και τους επισκέπτες." data-en="Easy access with spacious parking for members and visitors.">Εύκολη πρόσβαση με άνετο χώρο στάθμευσης για τα μέλη και τους επισκέπτες.</span></div>
+        </div>
+        <div class="closure-note" id="holidayClosure" data-expire="2026-10-29T00:00:00+03:00">
+          <b data-el="ΕΠΕΡΧΟΜΕΝΕΣ ΑΡΓΙΕΣ · ΚΛΕΙΣΤΑ" data-en="UPCOMING PUBLIC HOLIDAY CLOSURES">ΕΠΕΡΧΟΜΕΝΕΣ ΑΡΓΙΕΣ · ΚΛΕΙΣΤΑ</b>
+          <span data-el="1 Οκτωβρίου 2026 · 28 Οκτωβρίου 2026" data-en="1 October 2026 · 28 October 2026">1 Οκτωβρίου 2026 · 28 Οκτωβρίου 2026</span>
+        </div>
         <div class="hours">
           <div class="hours-row"><span data-el="ΔΕΥΤΕΡΑ – ΠΑΡΑΣΚΕΥΗ" data-en="MONDAY – FRIDAY">ΔΕΥΤΕΡΑ – ΠΑΡΑΣΚΕΥΗ</span><b>06:30 – 21:15</b></div>
           <div class="hours-row"><span data-el="ΣΑΒΒΑΤΟ" data-en="SATURDAY">ΣΑΒΒΑΤΟ</span><b>08:30 – 14:00</b></div>
           <div class="hours-row"><span data-el="ΚΥΡΙΑΚΗ" data-en="SUNDAY">ΚΥΡΙΑΚΗ</span><b data-el="ΚΛΕΙΣΤΑ" data-en="CLOSED">ΚΛΕΙΣΤΑ</b></div>
         </div>
         <div class="visit-actions">
-          <a class="btn btn-primary" href="https://www.instagram.com/force.fitness.club/" target="_blank" rel="noopener">INSTAGRAM</a>
-          <a class="btn btn-ghost" href="#memberships" data-el="ΔΕΣ ΤΙΣ ΣΥΝΔΡΟΜΕΣ" data-en="VIEW MEMBERSHIPS">ΔΕΣ ΤΙΣ ΣΥΝΔΡΟΜΕΣ</a>
+          <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&query=Force%20Fitness%20Club%2C%20Dromolaxias%2030%2C%20Kiti%207550%2C%20Cyprus" target="_blank" rel="noopener" data-el="GOOGLE MAPS" data-en="GOOGLE MAPS">GOOGLE MAPS</a>
+          <a class="btn btn-ghost" href="https://www.waze.com/ul?q=Force%20Fitness%20Club%2C%20Dromolaxias%2030%2C%20Kiti%207550%2C%20Cyprus&navigate=yes" target="_blank" rel="noopener" data-el="WAZE" data-en="WAZE">WAZE</a>
+          <a class="btn btn-ghost" href="https://www.instagram.com/force.fitness.club/" target="_blank" rel="noopener">INSTAGRAM</a>
         </div>
       </div>
     </div>
@@ -523,6 +548,34 @@ padding:54px;display:grid;grid-template-columns:1fr .9fr;gap:50px;align-items:ce
   if(v){
     v.play().catch(function(){});
     document.addEventListener("visibilitychange",function(){if(!document.hidden)v.play().catch(function(){})});
+  }
+
+  var closure=document.getElementById("holidayClosure");
+  if(closure){
+    var expires=Date.parse(closure.getAttribute("data-expire"));
+    if(!isNaN(expires)&&Date.now()>=expires)closure.remove();
+  }
+
+  var reduceMotion=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var wide=window.matchMedia&&window.matchMedia("(min-width: 761px)").matches;
+  if(!reduceMotion&&wide){
+    var parallax=[].slice.call(document.querySelectorAll(".parallax-media"));
+    var ticking=false;
+    function appleScroll(){
+      var y=window.scrollY||0;
+      if(v)v.style.transform="translate3d(0,"+Math.min(42,y*.045)+"px,0) scale(1.035)";
+      parallax.forEach(function(el){
+        var r=el.parentElement.getBoundingClientRect();
+        var center=r.top+r.height/2-window.innerHeight/2;
+        var move=Math.max(-24,Math.min(24,-center*.035));
+        el.style.transform="translate3d(0,"+move+"px,0) scale(1.055)";
+      });
+      ticking=false;
+    }
+    window.addEventListener("scroll",function(){
+      if(!ticking){requestAnimationFrame(appleScroll);ticking=true}
+    },{passive:true});
+    appleScroll();
   }
 })();
 </script>
