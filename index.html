@@ -301,6 +301,9 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
 .member-video-btn{position:absolute;left:18px;bottom:18px;z-index:3;display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.22);background:rgba(2,7,13,.84);backdrop-filter:blur(14px);color:#fff;padding:12px 15px;cursor:pointer;transition:.22s;box-shadow:0 14px 34px rgba(0,0,0,.34)}
 .member-video-btn:hover{border-color:var(--blue);background:rgba(7,140,255,.16);transform:translateY(-2px)}
 .member-video-icon{width:34px;height:34px;display:grid;place-items:center;background:var(--blue);font-size:12px;box-shadow:0 0 24px rgba(7,140,255,.3)}
+@keyframes memberVideoPulse{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(7,140,255,.52)}45%{transform:scale(1.08);box-shadow:0 0 0 10px rgba(7,140,255,0)}70%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,105,35,.34)}100%{transform:scale(1);box-shadow:0 0 0 12px rgba(255,105,35,0)}}
+.member-box.in .member-video-icon{animation:memberVideoPulse 1.35s ease-out .55s 1 both}
+@media (prefers-reduced-motion:reduce){.member-box.in .member-video-icon{animation:none}}
 .member-video-btn small{display:block;color:#7f91a1;font-size:7px;letter-spacing:.16em;text-transform:uppercase;text-align:left}
 .member-video-btn b{display:block;margin-top:3px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-align:left}
 .member-video-modal{position:fixed;z-index:50000;inset:0;background:rgba(0,3,8,.96);display:grid;place-items:center;padding:24px;opacity:0;visibility:hidden;pointer-events:none;transition:.25s}
