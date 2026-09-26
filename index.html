@@ -298,6 +298,18 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
 
 .member-visual{position:relative;z-index:2;overflow:hidden;border:1px solid var(--line);background:#040a10}
 .member-visual img{width:100%;display:block;aspect-ratio:16/10;object-fit:cover}
+.member-video-btn{position:absolute;left:18px;bottom:18px;z-index:3;display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.22);background:rgba(2,7,13,.84);backdrop-filter:blur(14px);color:#fff;padding:12px 15px;cursor:pointer;transition:.22s;box-shadow:0 14px 34px rgba(0,0,0,.34)}
+.member-video-btn:hover{border-color:var(--blue);background:rgba(7,140,255,.16);transform:translateY(-2px)}
+.member-video-icon{width:34px;height:34px;display:grid;place-items:center;background:var(--blue);font-size:12px;box-shadow:0 0 24px rgba(7,140,255,.3)}
+.member-video-btn small{display:block;color:#7f91a1;font-size:7px;letter-spacing:.16em;text-transform:uppercase;text-align:left}
+.member-video-btn b{display:block;margin-top:3px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-align:left}
+.member-video-modal{position:fixed;z-index:50000;inset:0;background:rgba(0,3,8,.96);display:grid;place-items:center;padding:24px;opacity:0;visibility:hidden;pointer-events:none;transition:.25s}
+.member-video-modal.open{opacity:1;visibility:visible;pointer-events:auto}
+.member-video-shell{position:relative;width:min(430px,92vw);max-height:92vh;display:grid;place-items:center}
+.member-video-shell video{width:auto;max-width:100%;max-height:86vh;background:#000;box-shadow:0 30px 100px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.12)}
+.member-video-close{position:absolute;z-index:2;right:-12px;top:-12px;width:44px;height:44px;border:1px solid rgba(255,255,255,.18);background:#07111b;color:#fff;font-size:22px;cursor:pointer}
+.member-video-close:hover{border-color:var(--blue);background:#0a1b2a}
+body.member-video-open{overflow:hidden}
 .registration-steps{display:grid;gap:8px;margin-top:22px}
 .registration-step{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;padding:11px 12px;border:1px solid var(--line);background:rgba(0,0,0,.18)}
 .registration-step i{font-style:normal;width:24px;height:24px;display:grid;place-items:center;background:var(--blue);font-size:9px;font-weight:900}
@@ -473,6 +485,11 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   .member-box{padding:28px 18px;gap:30px}
   .member-box h2{font-size:clamp(38px,12vw,52px);margin:12px 0 16px}
   .member-visual{order:2}
+  .member-video-btn{left:10px;right:10px;bottom:10px;padding:10px 12px}
+  .member-video-btn b{font-size:9px}
+  .member-video-modal{padding:12px}
+  .member-video-shell{width:min(390px,94vw)}
+  .member-video-close{right:0;top:-52px}
   .member-features.member-features-three{order:3;grid-template-columns:1fr;margin-top:0}
   .registration-step{padding:10px}
   .login-credentials{display:grid;grid-template-columns:1fr}
@@ -790,8 +807,15 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
           </div>
         </div>
 
-        <div class="member-visual lightbox-item" data-lightbox-group="app" data-lightbox-src="force-member-app-showcase.png" data-lightbox-label="My Fitness Trainer · New Member Registration">
+        <div class="member-visual">
           <img src="force-member-app-showcase.png" alt="My Fitness Trainer app login and new member registration for Force Fitness Club" loading="lazy">
+          <button class="member-video-btn" id="memberVideoBtn" type="button" aria-haspopup="dialog" aria-controls="memberVideoModal">
+            <span class="member-video-icon">▶</span>
+            <span>
+              <small data-el="VIDEO ΟΔΗΓΟΣ" data-en="VIDEO GUIDE">VIDEO GUIDE</small>
+              <b data-el="ΔΕΣ ΠΩΣ ΓΙΝΕΤΑΙ Η ΕΓΓΡΑΦΗ" data-en="WATCH HOW TO REGISTER">WATCH HOW TO REGISTER</b>
+            </span>
+          </button>
         </div>
 
         <div class="member-features member-features-three">
@@ -854,6 +878,15 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
     </div>
   </div>
 </footer>
+
+<div class="member-video-modal" id="memberVideoModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="How to register with My Fitness Trainer">
+  <div class="member-video-shell">
+    <button class="member-video-close" id="memberVideoClose" type="button" aria-label="Close video">×</button>
+    <video id="memberVideo" controls playsinline preload="metadata">
+      <source src="force-member-registration-guide.MP4" type="video/mp4">
+    </video>
+  </div>
+</div>
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
@@ -960,6 +993,27 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   lb.addEventListener("click",function(e){if(e.target===lb)closeLightbox()});
   document.addEventListener("keydown",function(e){if(!lb.classList.contains("open"))return;if(e.key==="Escape")closeLightbox();if(e.key==="ArrowLeft")stepLightbox(-1);if(e.key==="ArrowRight")stepLightbox(1)});
   var touchX=null;lb.addEventListener("touchstart",function(e){touchX=e.changedTouches[0].clientX},{passive:true});lb.addEventListener("touchend",function(e){if(touchX===null)return;var dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>45)stepLightbox(dx>0?-1:1);touchX=null},{passive:true});
+
+  var memberVideoBtn=document.getElementById("memberVideoBtn"),
+      memberVideoModal=document.getElementById("memberVideoModal"),
+      memberVideo=document.getElementById("memberVideo"),
+      memberVideoClose=document.getElementById("memberVideoClose");
+  function openMemberVideo(){
+    memberVideoModal.classList.add("open");
+    memberVideoModal.setAttribute("aria-hidden","false");
+    document.body.classList.add("member-video-open");
+    try{memberVideo.currentTime=0;memberVideo.play().catch(function(){})}catch(e){}
+  }
+  function closeMemberVideo(){
+    memberVideoModal.classList.remove("open");
+    memberVideoModal.setAttribute("aria-hidden","true");
+    document.body.classList.remove("member-video-open");
+    try{memberVideo.pause();memberVideo.currentTime=0}catch(e){}
+  }
+  if(memberVideoBtn)memberVideoBtn.addEventListener("click",openMemberVideo);
+  if(memberVideoClose)memberVideoClose.addEventListener("click",closeMemberVideo);
+  if(memberVideoModal)memberVideoModal.addEventListener("click",function(e){if(e.target===memberVideoModal)closeMemberVideo()});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&memberVideoModal&&memberVideoModal.classList.contains("open"))closeMemberVideo()});
 
   var reduceMotion=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var wide=window.matchMedia&&window.matchMedia("(min-width: 761px)").matches;
