@@ -151,6 +151,14 @@ linear-gradient(180deg,rgba(1,5,10,.35),rgba(1,5,10,.06) 45%,#02070d 100%)}
 .strip-item b{font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 .strip-item span{display:block;color:#748596;font-size:10px;margin-top:6px}
 
+/* TRAINING ENVIRONMENT */
+.comfort-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(7,140,255,.08),rgba(255,255,255,.015),rgba(7,140,255,.05))}
+.comfort-band-inner{min-height:118px;display:flex;align-items:center;justify-content:space-between;gap:40px}
+.comfort-kicker{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue2);font-weight:800;margin-bottom:7px}
+.comfort-title{font-size:clamp(17px,2.1vw,28px);font-weight:900;letter-spacing:-.025em;text-transform:uppercase}
+.comfort-band p{margin:0;max-width:430px;text-align:right;color:#8ea0b0;font-size:12px;line-height:1.6}
+.login-action{margin-top:8px;color:#b9c9d6;font-size:10px;line-height:1.5}
+
 /* EXPERIENCE */
 .experience{background:
 radial-gradient(circle at 80% 0%,rgba(7,140,255,.09),transparent 28%),
@@ -401,6 +409,9 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   .strip-item b{font-size:9px;line-height:1.35}
   .strip-item span{font-size:9px;line-height:1.45}
 
+  .comfort-band-inner{min-height:0;padding:22px 0;display:block}
+  .comfort-band p{text-align:left;margin-top:8px;font-size:11px}
+  .comfort-title{font-size:17px;line-height:1.25}
   .experience-head,.membership-head{display:block;margin-bottom:30px}
   .experience-head .section-copy,.membership-head .section-copy{margin-top:18px}
   .gallery{display:grid;grid-template-columns:1fr;grid-template-rows:auto;gap:10px}
@@ -591,6 +602,16 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
     </div>
   </section>
 
+  <section class="comfort-band" aria-label="Gym climate and ventilation">
+    <div class="wrap comfort-band-inner reveal">
+      <div>
+        <div class="comfort-kicker" data-el="ΠΕΡΙΒΑΛΛΟΝ ΠΡΟΠΟΝΗΣΗΣ" data-en="TRAINING ENVIRONMENT">TRAINING ENVIRONMENT</div>
+        <div class="comfort-title" data-el="ΠΛΗΡΩΣ ΚΛΙΜΑΤΙΖΟΜΕΝΟΣ & ΑΕΡΙΖΟΜΕΝΟΣ ΧΩΡΟΣ" data-en="FULLY AIR-CONDITIONED & VENTILATED">FULLY AIR-CONDITIONED & VENTILATED</div>
+      </div>
+      <p data-el="Άνετες συνθήκες προπόνησης σε όλο το γυμναστήριο." data-en="Comfortable training conditions throughout the gym.">Comfortable training conditions throughout the gym.</p>
+    </div>
+  </section>
+
   <section class="section experience" id="experience">
     <div class="wrap">
       <div class="experience-head reveal">
@@ -755,7 +776,7 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
 
           <div class="registration-steps">
             <div class="registration-step"><i>1</i><div><b data-el="ΚΑΤΕΒΑΣΕ ΤΗΝ ΕΦΑΡΜΟΓΗ" data-en="DOWNLOAD THE APP">DOWNLOAD THE APP</b><span data-el="Εγκατέστησε το My Fitness Trainer από App Store ή Google Play." data-en="Install My Fitness Trainer from the App Store or Google Play.">Install My Fitness Trainer from the App Store or Google Play.</span></div></div>
-            <div class="registration-step"><i>2</i><div><b data-el="ΣΥΝΔΕΣΟΥ ΩΣ ΝΕΟ ΜΕΛΟΣ" data-en="LOG IN AS A NEW MEMBER">LOG IN AS A NEW MEMBER</b><span data-el="Χρησιμοποίησε τα αρχικά στοιχεία εγγραφής:" data-en="Use the starter registration details:">Use the starter registration details:</span><div class="login-credentials"><code>Username: newmember</code><code>Password: force1</code></div></div></div>
+            <div class="registration-step"><i>2</i><div><b data-el="ΣΥΝΔΕΣΟΥ ΩΣ ΝΕΟ ΜΕΛΟΣ" data-en="LOG IN AS A NEW MEMBER">LOG IN AS A NEW MEMBER</b><span data-el="Χρησιμοποίησε τα αρχικά στοιχεία εγγραφής και μετά πάτησε Log In:" data-en="Enter the starter registration details below, then tap Log In:">Enter the starter registration details below, then tap Log In:</span><div class="login-credentials"><code>Username: newmember</code><code>Password: force1</code></div><div class="login-action" data-el="Μόλις τα συμπληρώσεις, πάτησε το πορτοκαλί κουμπί Log In." data-en="Once entered, tap the orange Log In button.">Once entered, tap the orange Log In button.</div></div></div>
             <div class="registration-step"><i>3</i><div><b data-el="ΟΛΟΚΛΗΡΩΣΕ ΤΗΝ ΕΓΓΡΑΦΗ" data-en="COMPLETE YOUR REGISTRATION">COMPLETE YOUR REGISTRATION</b><span data-el="Συμπλήρωσε τα στοιχεία σου στην οθόνη New Member Registration." data-en="Enter your details on the New Member Registration screen.">Enter your details on the New Member Registration screen.</span></div></div>
           </div>
 
