@@ -834,6 +834,16 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   </div>
 </footer>
 
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+  <button class="lightbox-nav" id="lightboxPrev" aria-label="Previous">‹</button>
+  <div class="lightbox-stage">
+    <img id="lightboxImage" src="" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+  <button class="lightbox-nav" id="lightboxNext" aria-label="Next">›</button>
+</div>
 <script>
 (function(){
   var header=document.getElementById("header");
@@ -954,15 +964,5 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
 })();
 </script>
 
-<div class="lightbox" id="lightbox" aria-hidden="true">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
-  <div class="lightbox-counter" id="lightboxCounter"></div>
-  <button class="lightbox-nav" id="lightboxPrev" aria-label="Previous">‹</button>
-  <div class="lightbox-stage">
-    <img id="lightboxImage" src="" alt="">
-    <div class="lightbox-caption" id="lightboxCaption"></div>
-  </div>
-  <button class="lightbox-nav" id="lightboxNext" aria-label="Next">›</button>
-</div>
 </body>
 </html>
