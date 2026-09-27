@@ -552,6 +552,37 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   .visit-actions{grid-template-columns:1fr}
   .visit-actions .btn:last-child{grid-column:auto}
 }
+
+/* Mobile floating back-to-top */
+.back-to-top{
+  position:fixed;
+  right:16px;
+  bottom:calc(18px + env(safe-area-inset-bottom));
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:1px solid rgba(45,182,255,.34);
+  background:rgba(4,13,22,.78);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1200;
+  box-shadow:0 12px 32px rgba(0,0,0,.36),0 0 24px rgba(7,140,255,.18);
+  backdrop-filter:blur(16px) saturate(135%);
+  -webkit-backdrop-filter:blur(16px) saturate(135%);
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(10px) scale(.92);
+  pointer-events:none;
+  transition:opacity .25s ease,transform .25s ease,visibility .25s ease,background .2s ease,border-color .2s ease;
+  cursor:pointer;
+}
+.back-to-top svg{width:18px;height:18px;filter:drop-shadow(0 0 7px rgba(45,182,255,.7))}
+.back-to-top.show{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto}
+.back-to-top:active{transform:scale(.94)}
+@media(min-width:761px){.back-to-top{display:none}}
+
 @media(prefers-reduced-motion:reduce){
   .brand-intro{display:none!important}
   html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}
@@ -901,6 +932,12 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   </div>
   <button class="lightbox-nav" id="lightboxNext" aria-label="Next">›</button>
 </div>
+<button class="back-to-top" id="backToTop" type="button" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 15l6-6 6 6"></path>
+  </svg>
+</button>
+
 <script>
 (function(){
   var header=document.getElementById("header");
@@ -1037,6 +1074,20 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
     },{passive:true});
     appleScroll();
   }
+  var backToTop=document.getElementById("backToTop");
+  if(backToTop){
+    function syncBackToTop(){
+      var show=(window.scrollY||document.documentElement.scrollTop||0)>520;
+      backToTop.classList.toggle("show",show);
+    }
+    window.addEventListener("scroll",syncBackToTop,{passive:true});
+    backToTop.addEventListener("click",function(){
+      var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({top:0,behavior:reduced?"auto":"smooth"});
+    });
+    syncBackToTop();
+  }
+
 })();
 </script>
 
