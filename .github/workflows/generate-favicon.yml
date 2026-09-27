@@ -1,0 +1,68 @@
+name: Generate Force favicon
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/generate-favicon.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  favicon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Download official Force logo
+        run: |
+          curl -L "https://raw.githubusercontent.com/ADSolutionsCRM/force-fitness-coming-soon/main/force-logo-white.png" -o force-logo-white.png
+
+      - name: Generate square favicon assets
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from PIL import Image
+
+          src = Image.open("force-logo-white.png").convert("RGBA")
+          w, h = src.size
+
+          # Use only the official Force symbol from the left side of the supplied logo.
+          mark = src.crop((0, 0, int(w * 0.36), h))
+          bbox = mark.getchannel("A").getbbox()
+          if bbox:
+              mark = mark.crop(bbox)
+
+          def make_icon(size, filename, pad_ratio=0.12):
+              bg = Image.new("RGBA", (size, size), (2, 7, 13, 255))
+              pad = int(size * pad_ratio)
+              max_side = size - 2 * pad
+              mw, mh = mark.size
+              scale = min(max_side / mw, max_side / mh)
+              resized = mark.resize(
+                  (max(1, round(mw * scale)), max(1, round(mh * scale))),
+                  Image.Resampling.LANCZOS
+              )
+              x = (size - resized.width) // 2
+              y = (size - resized.height) // 2
+              bg.alpha_composite(resized, (x, y))
+              bg.convert("RGB").save(filename, "PNG", optimize=True)
+
+          make_icon(512, "favicon.png")
+          make_icon(192, "favicon-192.png")
+          make_icon(180, "apple-touch-icon.png")
+          make_icon(48, "favicon-48.png", 0.10)
+          PY
+
+      - name: Commit generated favicon files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add favicon.png favicon-192.png favicon-48.png apple-touch-icon.png force-logo-white.png
+          git commit -m "Add Force favicon assets" || exit 0
+          git push
