@@ -51,8 +51,16 @@ input:focus{border-color:var(--blue)}
 .day.sun{color:#6f8193}
 .day.today{border-color:var(--blue2)}
 .day.closed{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 16px rgba(7,140,255,.45)}
+.day.partial{background:linear-gradient(135deg,var(--blue) 0 50%,var(--panel2) 50% 100%);border-color:var(--blue);color:#fff}
+.mode{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:10px;border:1px solid var(--line)}
+.mode button{height:40px;border:0;background:transparent;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.mode button.on{background:var(--blue);color:#fff}
+.times{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.times label{margin:0;font-size:9px}
+.times input{width:100%;height:42px;margin-top:5px;padding:0 10px;background:#030b14;border:1px solid var(--line);color:var(--text);font-size:16px;border-radius:0;color-scheme:dark}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;background:var(--blue)}
+.legend i.p{background:linear-gradient(135deg,var(--blue) 0 50%,transparent 50%);border:1px solid var(--blue)}
 .legend i.t{background:transparent;border:1px solid var(--blue2)}
 
 .hol{width:100%;height:48px;margin:0 0 16px;padding:0 40px 0 14px;background:#030b14 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%232db6ff' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center;border:1px solid rgba(7,140,255,.45);color:var(--text);font-size:15px;border-radius:0;-webkit-appearance:none;appearance:none;outline:none}
@@ -128,7 +136,7 @@ input:focus{border-color:var(--blue)}
         <button class="nav" id="next" aria-label="Next month">›</button>
       </div>
       <div class="grid" id="grid"></div>
-      <div class="legend"><span><i></i><span data-t="legendClosed"></span></span><span><i class="t"></i><span data-t="legendToday"></span></span></div>
+      <div class="legend"><span><i></i><span data-t="legendClosed"></span></span><span><i class="p"></i><span data-t="legendHours"></span></span><span><i class="t"></i><span data-t="legendToday"></span></span></div>
     </div>
     <div class="list-title" data-t="upcoming"></div>
     <div id="list"></div>
@@ -159,6 +167,7 @@ var FILE_HEADER=[
 "#   Several days:    2026-12-24 to 2026-12-26",
 "#   With a name:     2026-12-25 | Christmas Day | Χριστούγεννα",
 "#                    (English name first, then Greek — both optional)",
+"#   Special hours:   2026-12-24 | Christmas Eve | Παραμονή | 06:30-14:00",
 "#",
 "# The website shows a notice bar 3 days before each closure, lists",
 "# upcoming closures in the Visit section, and hides them once passed.",
@@ -171,8 +180,8 @@ var T={
  el:{logout:"ΕΞΟΔΟΣ",loginTitle:"Ημέρες κλειστά",loginSub:"Βάλε τον κωδικό για να διαχειριστείς τις ημέρες που το γυμναστήριο είναι κλειστό.",password:"Κωδικός",enter:"ΕΙΣΟΔΟΣ",
   setupLink:"Αρχική ρύθμιση / αλλαγή κωδικού",setupTitle:"Αρχική ρύθμιση",setupSub:"Γίνεται μία φορά από τον διαχειριστή της ιστοσελίδας. Ο κωδικός που θα ορίσεις είναι αυτός που θα χρησιμοποιεί ο ιδιοκτήτης.",
   newPassword:"Νέος κωδικός (τουλάχιστον 8 χαρακτήρες)",repeatPassword:"Επανάληψη κωδικού",saveSetup:"ΑΠΟΘΗΚΕΥΣΗ ΡΥΘΜΙΣΗΣ",back:"← Πίσω",
-  appTitle:"Ημέρες κλειστά",appSub:"Πάτα μια ημέρα για να την ορίσεις κλειστή. Πάτα ξανά για να την αφαιρέσεις. Μετά πάτα Αποθήκευση.",
-  holLabel:"Δημόσιες αργίες Κύπρου",holPick:"+ Πρόσθεσε δημόσια αργία…",holAdded:"✓ ",legendClosed:"Κλειστά",legendToday:"Σήμερα",upcoming:"Επερχόμενες ημέρες κλειστά",none:"Δεν υπάρχουν επερχόμενες ημέρες κλειστά.",
+  appTitle:"Ημέρες κλειστά",appSub:"Πάτα μια ημέρα για να την προσθέσεις (πάτα ξανά για αφαίρεση). Από κάτω διάλεξε αν είναι κλειστά όλη μέρα ή με ειδικό ωράριο. Μετά πάτα Αποθήκευση.",
+  holLabel:"Δημόσιες αργίες Κύπρου",holPick:"+ Πρόσθεσε δημόσια αργία…",holAdded:"✓ ",legendClosed:"Κλειστά",legendHours:"Ειδικό ωράριο",modeClosed:"Κλειστά όλη μέρα",modeHours:"Ειδικό ωράριο",opens:"Ανοίγει",closes:"Κλείνει",legendToday:"Σήμερα",upcoming:"Επερχόμενες αργίες & ειδικό ωράριο",none:"Δεν υπάρχουν επερχόμενες ημέρες κλειστά.",
   remove:"ΑΦΑΙΡΕΣΗ",nameEn:"Όνομα (Αγγλικά)",nameEl:"Όνομα (Ελληνικά)",save:"ΑΠΟΘΗΚΕΥΣΗ",saving:"Αποθήκευση…",
   saved:"Αποθηκεύτηκε ✓ Θα φαίνεται στην ιστοσελίδα σε 1–2 λεπτά.",dirty:"Υπάρχουν αλλαγές που δεν αποθηκεύτηκαν",clean:"Όλα αποθηκευμένα",
   wrongPw:"Λάθος κωδικός.",noSetup:"Η σελίδα δεν έχει ρυθμιστεί ακόμα. Επικοινώνησε με τον διαχειριστή.",loading:"Φόρτωση…",
@@ -184,8 +193,8 @@ var T={
  en:{logout:"LOG OUT",loginTitle:"Closed dates",loginSub:"Enter the password to manage the days the gym is closed.",password:"Password",enter:"ENTER",
   setupLink:"First-time setup / change password",setupTitle:"First-time setup",setupSub:"Done once by the website admin. The password you set here is the one the owner will use.",
   newPassword:"New password (at least 8 characters)",repeatPassword:"Repeat password",saveSetup:"SAVE SETUP",back:"← Back",
-  appTitle:"Closed dates",appSub:"Tap a day to mark it closed. Tap again to remove it. Then press Save.",
-  holLabel:"Cyprus public holidays",holPick:"+ Add a public holiday…",holAdded:"✓ ",legendClosed:"Closed",legendToday:"Today",upcoming:"Upcoming closures",none:"No upcoming closures.",
+  appTitle:"Closed dates",appSub:"Tap a day to add it (tap again to remove). Below, choose closed all day or special hours. Then press Save.",
+  holLabel:"Cyprus public holidays",holPick:"+ Add a public holiday…",holAdded:"✓ ",legendClosed:"Closed",legendHours:"Special hours",modeClosed:"Closed all day",modeHours:"Special hours",opens:"Opens",closes:"Closes",legendToday:"Today",upcoming:"Upcoming closures & special hours",none:"No upcoming closures.",
   remove:"REMOVE",nameEn:"Name (English)",nameEl:"Name (Greek)",save:"SAVE",saving:"Saving…",
   saved:"Saved ✓ It will show on the website in 1–2 minutes.",dirty:"You have unsaved changes",clean:"Everything saved",
   wrongPw:"Wrong password.",noSetup:"This page hasn't been set up yet. Please contact the website admin.",loading:"Loading…",
@@ -252,37 +261,42 @@ function dIso(d){return iso(d.getUTCFullYear(),d.getUTCMonth()+1,d.getUTCDate())
 function addDay(s,n){var d=parseIso(s);d.setUTCDate(d.getUTCDate()+n);return dIso(d)}
 function todayIso(){try{return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Nicosia",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())}catch(e){var n=new Date();return iso(n.getFullYear(),n.getMonth()+1,n.getDate())}}
 
-var days={};      // "YYYY-MM-DD" -> {en,el}
+var days={};      // "YYYY-MM-DD" -> {en,el,hours}  hours "" = closed all day, "06:30-14:00" = special hours
 var savedSnapshot="", fileSha=null;
 function parseFile(text){
   var out={};
   text.split(/\r?\n/).forEach(function(line){
     line=line.trim();if(!line||line.charAt(0)==="#")return;
     var p=line.split("|").map(function(x){return x.trim()});
+    var hours="";p=p.filter(function(x,i){var h=i>0&&normHours(x);if(h){hours=h;return false}return true});
     var r=p[0].split(/\s+(?:to|-|–|—)\s+|\s*(?:–|—)\s*/i);
     var s=parseIso(r[0]),e=r[1]?parseIso(r[1]):s;if(!s||!e)return;
     if(e<s){var x=s;s=e;e=x}
-    for(var d=new Date(s);d<=e;d.setUTCDate(d.getUTCDate()+1))out[dIso(d)]={en:p[1]||"",el:p[2]||""};
+    for(var d=new Date(s);d<=e;d.setUTCDate(d.getUTCDate()+1))out[dIso(d)]={en:p[1]||"",el:p[2]||"",hours:hours};
   });
   return out;
 }
+function normHours(x){var m=/^(\d{1,2}):(\d{2})\s*(?:-|–|—|to)\s*(\d{1,2}):(\d{2})$/i.exec((x||"").trim());return m?pad(+m[1])+":"+m[2]+"-"+pad(+m[3])+":"+m[4]:""}
+function normalHours(k){var wd=parseIso(k).getUTCDay();return wd===6?["08:30","14:00"]:wd===0?["09:00","13:00"]:["06:30","21:15"]}
 function groups(){
   var keys=Object.keys(days).sort(),out=[];
   keys.forEach(function(k){
     var last=out[out.length-1],v=days[k];
-    if(last&&addDay(last.end,1)===k&&last.en===v.en&&last.el===v.el){last.end=k;last.keys.push(k)}
-    else out.push({start:k,end:k,en:v.en,el:v.el,keys:[k]});
+    if(last&&addDay(last.end,1)===k&&last.en===v.en&&last.el===v.el&&(last.hours||"")===(v.hours||"")){last.end=k;last.keys.push(k)}
+    else out.push({start:k,end:k,en:v.en,el:v.el,hours:v.hours||"",keys:[k]});
   });
   return out;
 }
 function buildFile(){
   return FILE_HEADER+groups().map(function(g){
     var line=g.start+(g.end!==g.start?" to "+g.end:"");
-    if(g.en||g.el)line+=" | "+g.en.replace(/\|/g,"/")+(g.el?" | "+g.el.replace(/\|/g,"/"):"");
+    var en=g.en.replace(/\|/g,"/"),el=g.el.replace(/\|/g,"/");
+    if(g.hours)line+=" | "+en+" | "+el+" | "+g.hours;
+    else if(en||el)line+=" | "+en+(el?" | "+el:"");
     return line;
   }).join("\n")+"\n";
 }
-function snapshot(){return JSON.stringify(Object.keys(days).sort().map(function(k){return [k,days[k].en,days[k].el]}))}
+function snapshot(){return JSON.stringify(Object.keys(days).sort().map(function(k){return [k,days[k].en,days[k].el,days[k].hours||""]}))}
 function isDirty(){return snapshot()!==savedSnapshot}
 function fmtGroup(g){
   var s=parseIso(g.start),e=parseIso(g.end),M=t("monthsG");
@@ -342,7 +356,7 @@ function renderHolidays(){
 $("hol").onchange=function(){
   var v=this.value;if(!v)return;
   var p=v.split("|");
-  days[p[0]]={en:p[1],el:p[2]};
+  days[p[0]]={en:p[1],el:p[2],hours:(days[p[0]]&&days[p[0]].hours)||""};
   viewY=+p[0].slice(0,4);viewM=+p[0].slice(5,7);
   renderCal();renderList();renderState();
 };
@@ -363,7 +377,7 @@ function renderCal(){
     if(k<today){b.classList.add("past");b.disabled=true}
     if((offset+d-1)%7===6)b.classList.add("sun");
     if(k===today)b.classList.add("today");
-    if(days[k])b.classList.add("closed");
+    if(days[k])b.classList.add(days[k].hours?"partial":"closed");
     b.setAttribute("aria-pressed",days[k]?"true":"false");
     b.onclick=onDay;g.appendChild(b);
   }
@@ -371,7 +385,7 @@ function renderCal(){
 function onDay(ev){
   var k=ev.currentTarget.getAttribute("data-date");
   if(days[k])delete days[k];
-  else{var n=days[addDay(k,-1)]||days[addDay(k,1)];days[k]=n?{en:n.en,el:n.el}:{en:"",el:""}}
+  else{var n=days[addDay(k,-1)]||days[addDay(k,1)];days[k]=n?{en:n.en,el:n.el,hours:n.hours||""}:{en:"",el:"",hours:""}}
   renderCal();renderList();renderState();
 }
 $("prev").onclick=function(){viewM--;if(viewM<1){viewM=12;viewY--}renderCal()};
@@ -383,7 +397,7 @@ function renderList(){
   if(!up.length){var p=document.createElement("div");p.className="empty-note";p.textContent=t("none");L.appendChild(p);return}
   up.forEach(function(g){
     var it=document.createElement("div");it.className="item";
-    it.innerHTML='<div class="item-top"><span class="item-date"></span><button type="button" class="del"></button></div><div class="names"><input type="text" class="n-en"><input type="text" class="n-el"></div>';
+    it.innerHTML='<div class="item-top"><span class="item-date"></span><button type="button" class="del"></button></div><div class="names"><input type="text" class="n-en"><input type="text" class="n-el"></div><div class="mode"><button type="button" class="m-closed"></button><button type="button" class="m-hours"></button></div><div class="times" hidden><label><span class="t-open"></span><input type="time" class="h-from" step="300"></label><label><span class="t-close"></span><input type="time" class="h-to" step="300"></label></div>';
     it.querySelector(".item-date").textContent=fmtGroup(g);
     var del=it.querySelector(".del");del.textContent=t("remove");
     del.onclick=function(){g.keys.forEach(function(k){delete days[k]});renderCal();renderList();renderState()};
@@ -392,6 +406,16 @@ function renderList(){
     en.setAttribute("aria-label",t("nameEn"));el.setAttribute("aria-label",t("nameEl"));
     en.oninput=function(){g.keys.forEach(function(k){days[k].en=en.value.trim()});renderState()};
     el.oninput=function(){g.keys.forEach(function(k){days[k].el=el.value.trim()});renderState()};
+    var mc=it.querySelector(".m-closed"),mh=it.querySelector(".m-hours"),tm=it.querySelector(".times"),hf=it.querySelector(".h-from"),ht=it.querySelector(".h-to");
+    mc.textContent=t("modeClosed");mh.textContent=t("modeHours");
+    it.querySelector(".t-open").textContent=t("opens");it.querySelector(".t-close").textContent=t("closes");
+    mc.classList.toggle("on",!g.hours);mh.classList.toggle("on",!!g.hours);tm.hidden=!g.hours;
+    if(g.hours){hf.value=g.hours.slice(0,5);ht.value=g.hours.slice(6)}
+    function setHours(v){g.keys.forEach(function(k){days[k].hours=v});}
+    mc.onclick=function(){setHours("");renderCal();renderList();renderState()};
+    mh.onclick=function(){if(g.hours)return;var n=normalHours(g.start);setHours(n[0]+"-"+(n[1]>"14:00"?"14:00":n[1]));renderCal();renderList();renderState()};
+    function onTime(){if(hf.value&&ht.value){setHours(hf.value+"-"+ht.value);renderCal();renderState()}}
+    hf.onchange=ht.onchange=onTime;hf.oninput=ht.oninput=onTime;
     L.appendChild(it);
   });
 }
