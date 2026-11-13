@@ -2,17 +2,15 @@
 
 Live at **https://forcefitnesscy.com** (GitHub Pages, deployed from `main`).
 
-## Adding closed dates (for the owner)
+## Closed dates — admin page
 
-Open **`closed-dates.txt`**, tap the pencil (Edit), add a line, then **Commit changes**.
-The site updates within a few minutes — no other changes needed.
+The owner manages closed dates at **https://forcefitnesscy.com/admin** (password protected, not linked from the site, `noindex`):
+tap days on the calendar → optional EN/GR name → **Save**. The site updates in 1–2 minutes.
 
-```
-2026-12-25 | Christmas Day | Χριστούγεννα
-2026-12-24 to 2026-12-26 | Christmas | Χριστούγεννα
-2027-01-06
-```
+- Saved to `closed-dates.txt` (can also be edited by hand — format is explained at the top of the file).
+- The top notice bar appears 3 days before each closure; the next 3 closures are listed in the Visit section; both hide once passed.
 
-- The notice bar at the top appears 3 days before and disappears after the date.
-- Upcoming dates (next 3) are listed in the Visit section.
-- Names are optional (English first, then Greek). Past dates can be left in or deleted.
+### One-time setup (site admin)
+1. Create a GitHub **fine-grained token**: owner `ADSolutionsCRM`, only repo `force-fitness-concept`, permission **Contents: Read and write**, longest expiry allowed.
+2. Open `/admin` → "First-time setup / change password" → paste the token, choose the owner's password.
+3. The token is encrypted with that password (PBKDF2 600k + AES-GCM) and stored in `admin/key.json`. Re-run setup to change the password or when the token expires.
