@@ -373,6 +373,7 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
 .visit-meta-card{padding:14px 16px;border:1px solid var(--line);background:rgba(255,255,255,.018)}
 .visit-meta-card b{display:block;font-size:10px;letter-spacing:.11em;text-transform:uppercase}
 .visit-meta-card span{display:block;margin-top:5px;color:#7f91a1;font-size:11px;line-height:1.45}
+.closure-note[hidden]{display:none!important}
 .closure-note{margin-top:16px;padding:14px 16px;border-left:2px solid var(--blue);background:rgba(7,140,255,.07)}
 .closure-note b{display:block;color:#dcecff;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
 .closure-note span{display:block;margin-top:6px;color:#8ea1b1;font-size:11px;line-height:1.55}
@@ -921,9 +922,9 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
           <div class="visit-meta-card"><b data-el="ΑΝΕΤΟΣ ΧΩΡΟΣ ΣΤΑΘΜΕΥΣΗΣ" data-en="SPACIOUS PARKING">SPACIOUS PARKING</b><span data-el="Εύκολη πρόσβαση με άνετο χώρο στάθμευσης για τα μέλη και τους επισκέπτες." data-en="Easy access with spacious parking for members and visitors.">Easy access with spacious parking for members and visitors.</span></div>
           <div class="visit-meta-card"><b data-el="ΕΠΙΚΟΙΝΩΝΙΑ" data-en="CONTACT">CONTACT</b><span><a href="tel:+35794302303">+357 94 302303</a></span></div>
         </div>
-        <div class="closure-note" id="holidayClosure" data-expire="2026-10-29T00:00:00+03:00">
-          <b data-el="ΕΠΕΡΧΟΜΕΝΕΣ ΑΡΓΙΕΣ · ΚΛΕΙΣΤΑ" data-en="UPCOMING PUBLIC HOLIDAY CLOSURES">ΕΠΕΡΧΟΜΕΝΕΣ ΑΡΓΙΕΣ · ΚΛΕΙΣΤΑ</b>
-          <span data-el="1 Οκτωβρίου 2026 · 28 Οκτωβρίου 2026" data-en="1 October 2026 · 28 October 2026">1 Οκτωβρίου 2026 · 28 Οκτωβρίου 2026</span>
+        <div class="closure-note" id="holidayClosure" hidden>
+          <b data-el="ΕΠΕΡΧΟΜΕΝΕΣ ΗΜΕΡΕΣ ΚΛΕΙΣΤΑ" data-en="UPCOMING CLOSURES">UPCOMING CLOSURES</b>
+          <span id="holidayClosureDates"></span>
         </div>
         <div class="hours">
           <div class="hours-row"><span data-el="ΔΕΥΤΕΡΑ – ΠΑΡΑΣΚΕΥΗ" data-en="MONDAY – FRIDAY">ΔΕΥΤΕΡΑ – ΠΑΡΑΣΚΕΥΗ</span><b>06:30 – 21:15</b></div>
@@ -1027,11 +1028,6 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
     document.addEventListener("visibilitychange",function(){if(!document.hidden)v.play().catch(function(){})});
   }
 
-  var closure=document.getElementById("holidayClosure");
-  if(closure){
-    var expires=Date.parse(closure.getAttribute("data-expire"));
-    if(!isNaN(expires)&&Date.now()>=expires)closure.remove();
-  }
 
   var lb=document.getElementById("lightbox"),lbImg=document.getElementById("lightboxImage"),
       lbCaption=document.getElementById("lightboxCaption"),lbCounter=document.getElementById("lightboxCounter"),
@@ -1127,24 +1123,73 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
     syncBackToTop();
   }
 
+  /* CLOSED DATES — edit closed-dates.txt, not this code */
   var holidayAlert=document.getElementById("holidayAlert");
   var holidayAlertTitle=document.getElementById("holidayAlertTitle");
   var holidayAlertDate=document.getElementById("holidayAlertDate");
-  function syncHolidayAlert(){
-    if(!holidayAlert||!holidayAlertTitle||!holidayAlertDate)return;
-    var now=new Date();
-    var y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
-    var key=y*10000+m*100+d;
-    var show=false,enDate="",elDate="";
-    if(key>=20260929&&key<=20261001){show=true;enDate="CLOSED · 1 OCTOBER 2026";elDate="ΚΛΕΙΣΤΑ · 1 ΟΚΤΩΒΡΙΟΥ 2026";}
-    else if(key>=20261024&&key<=20261028){show=true;enDate="CLOSED · 28 OCTOBER 2026";elDate="ΚΛΕΙΣΤΑ · 28 ΟΚΤΩΒΡΙΟΥ 2026";}
-    if(!show){holidayAlert.hidden=true;return;}
-    var isEl=document.documentElement.lang==="el";
-    holidayAlertTitle.textContent=isEl?"ΕΝΗΜΕΡΩΣΗ ΑΡΓΙΑΣ":"PUBLIC HOLIDAY NOTICE";
-    holidayAlertDate.textContent=isEl?elDate:enDate;
-    holidayAlert.hidden=false;
+  var closureNote=document.getElementById("holidayClosure");
+  var closureDates=document.getElementById("holidayClosureDates");
+  var NOTICE_DAYS_BEFORE=3, MAX_LISTED=3;
+  var monthsEn=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var monthsEl=["Ιανουαρίου","Φεβρουαρίου","Μαρτίου","Απριλίου","Μαΐου","Ιουνίου","Ιουλίου","Αυγούστου","Σεπτεμβρίου","Οκτωβρίου","Νοεμβρίου","Δεκεμβρίου"];
+  var monthsElUp=["ΙΑΝΟΥΑΡΙΟΥ","ΦΕΒΡΟΥΑΡΙΟΥ","ΜΑΡΤΙΟΥ","ΑΠΡΙΛΙΟΥ","ΜΑΪΟΥ","ΙΟΥΝΙΟΥ","ΙΟΥΛΙΟΥ","ΑΥΓΟΥΣΤΟΥ","ΣΕΠΤΕΜΒΡΙΟΥ","ΟΚΤΩΒΡΙΟΥ","ΝΟΕΜΒΡΙΟΥ","ΔΕΚΕΜΒΡΙΟΥ"];
+  var closures=[];
+  function toKey(str){var m=/^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(str.trim());if(!m)return null;return +m[1]*10000+ +m[2]*100+ +m[3];}
+  function keyToDate(k){return new Date(Date.UTC(Math.floor(k/10000),Math.floor(k/100)%100-1,k%100));}
+  function dateToKey(d){return d.getUTCFullYear()*10000+(d.getUTCMonth()+1)*100+d.getUTCDate();}
+  function addDays(k,n){var d=keyToDate(k);d.setUTCDate(d.getUTCDate()+n);return dateToKey(d);}
+  function todayKey(){
+    try{var p=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Nicosia",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());var k=toKey(p);if(k)return k;}catch(e){}
+    var n=new Date();return n.getFullYear()*10000+(n.getMonth()+1)*100+n.getDate();
   }
-  syncHolidayAlert();
+  function parseClosures(text){
+    var out=[];
+    text.split(/\r?\n/).forEach(function(line){
+      line=line.trim();if(!line||line.charAt(0)==="#")return;
+      var parts=line.split("|").map(function(x){return x.trim()});
+      var range=parts[0].split(/\s+(?:to|-|–|—)\s+|\s*(?:–|—)\s*/i);
+      var start=toKey(range[0]),end=range[1]?toKey(range[1]):start;
+      if(!start||!end)return;
+      if(end<start){var t=start;start=end;end=t;}
+      out.push({start:start,end:end,en:parts[1]||"",el:parts[2]||parts[1]||""});
+    });
+    return out.sort(function(a,b){return a.start-b.start});
+  }
+  function fmt(c,lang,upper){
+    var s=keyToDate(c.start),e=keyToDate(c.end);
+    var months=lang==="el"?(upper?monthsElUp:monthsEl):monthsEn;
+    function one(d,withYear){var t=d.getUTCDate()+" "+months[d.getUTCMonth()]+(withYear?" "+d.getUTCFullYear():"");return t;}
+    var txt;
+    if(c.start===c.end)txt=one(s,true);
+    else if(s.getUTCFullYear()===e.getUTCFullYear()&&s.getUTCMonth()===e.getUTCMonth())txt=s.getUTCDate()+"–"+one(e,true);
+    else if(s.getUTCFullYear()===e.getUTCFullYear())txt=one(s,false)+" – "+one(e,true);
+    else txt=one(s,true)+" – "+one(e,true);
+    return upper&&lang!=="el"?txt.toUpperCase():txt;
+  }
+  function upperNoAccent(t){try{return t.normalize("NFD").replace(/[\u0301\u0384]/g,"").normalize("NFC").toUpperCase()}catch(e){return t.toUpperCase()}}
+  function syncHolidayAlert(){
+    var lang=document.documentElement.lang==="el"?"el":"en";
+    var today=todayKey();
+    var upcoming=closures.filter(function(c){return c.end>=today});
+    if(holidayAlert&&holidayAlertTitle&&holidayAlertDate){
+      var soon=upcoming.filter(function(c){return today>=addDays(c.start,-NOTICE_DAYS_BEFORE)});
+      if(soon.length){
+        var c=soon[0],name=lang==="el"?c.el:c.en;
+        holidayAlertTitle.textContent=lang==="el"?"ΕΝΗΜΕΡΩΣΗ ΑΡΓΙΑΣ":"PUBLIC HOLIDAY NOTICE";
+        holidayAlertDate.textContent=(lang==="el"?"ΚΛΕΙΣΤΑ · ":"CLOSED · ")+fmt(c,lang,true)+(name?" · "+upperNoAccent(name):"");
+        holidayAlert.hidden=false;
+      }else holidayAlert.hidden=true;
+    }
+    if(closureNote&&closureDates){
+      var list=upcoming.slice(0,MAX_LISTED);
+      closureDates.textContent=list.map(function(c){var name=lang==="el"?c.el:c.en;return fmt(c,lang,false)+(name?" ("+name+")":"")}).join(" · ");
+      closureNote.hidden=!list.length;
+    }
+  }
+  fetch("closed-dates.txt",{cache:"no-store"})
+    .then(function(r){return r.ok?r.text():""})
+    .then(function(t){closures=parseClosures(t);syncHolidayAlert();})
+    .catch(function(){});
   document.getElementById("langGR")?.addEventListener("click",function(){setTimeout(syncHolidayAlert,0)});
   document.getElementById("langEN")?.addEventListener("click",function(){setTimeout(syncHolidayAlert,0)});
 

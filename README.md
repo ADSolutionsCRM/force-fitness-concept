@@ -1,17 +1,18 @@
-# Force Fitness Club — ADSolutions Concept
+# Force Fitness Club — website
 
-Static proposal microsite prepared for deployment at `https://force.adsolutionsglobal.com`.
+Live at **https://forcefitnesscy.com** (GitHub Pages, deployed from `main`).
 
-## Files
-- `index.html` — complete responsive concept page
-- `assets/force-concept.png` — visual concept mockup
-- `CNAME` — custom-domain declaration for GitHub Pages
+## Adding closed dates (for the owner)
 
-## GitHub Pages deployment
-1. Create a repository (suggested name: `force-fitness-concept`).
-2. Upload all files/folders at the repository root.
-3. In GitHub: Settings → Pages → Deploy from branch → `main` / `(root)`.
-4. In Namecheap DNS add the GitHub Pages CNAME target shown by GitHub for the repository/site.
-5. Keep the included `CNAME` file unchanged.
+Open **`closed-dates.txt`**, tap the pencil (Edit), add a line, then **Commit changes**.
+The site updates within a few minutes — no other changes needed.
 
-The page intentionally includes `noindex,nofollow` because this is a private sales concept, not a public SEO landing page.
+```
+2026-12-25 | Christmas Day | Χριστούγεννα
+2026-12-24 to 2026-12-26 | Christmas | Χριστούγεννα
+2027-01-06
+```
+
+- The notice bar at the top appears 3 days before and disappears after the date.
+- Upcoming dates (next 3) are listed in the Visit section.
+- Names are optional (English first, then Greek). Past dates can be left in or deleted.
