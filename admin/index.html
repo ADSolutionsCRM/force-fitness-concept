@@ -55,6 +55,8 @@ input:focus{border-color:var(--blue)}
 .legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;background:var(--blue)}
 .legend i.t{background:transparent;border:1px solid var(--blue2)}
 
+.hol{width:100%;height:48px;margin:0 0 16px;padding:0 40px 0 14px;background:#030b14 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%232db6ff' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center;border:1px solid rgba(7,140,255,.45);color:var(--text);font-size:15px;border-radius:0;-webkit-appearance:none;appearance:none;outline:none}
+.hol:focus{border-color:var(--blue2)}
 /* list */
 .list-title{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#bfe3ff;margin:4px 0 10px}
 .item{border-left:2px solid var(--blue);background:rgba(7,140,255,.07);padding:12px 12px 12px 14px;margin-bottom:10px}
@@ -118,6 +120,8 @@ input:focus{border-color:var(--blue)}
     <h1 data-t="appTitle"></h1>
     <p class="sub" data-t="appSub"></p>
     <div class="card">
+      <label for="hol" data-t="holLabel"></label>
+      <select id="hol" class="hol"></select>
       <div class="cal-head">
         <button class="nav" id="prev" aria-label="Previous month">‹</button>
         <b id="monthLabel"></b>
@@ -168,26 +172,26 @@ var T={
   setupLink:"Αρχική ρύθμιση / αλλαγή κωδικού",setupTitle:"Αρχική ρύθμιση",setupSub:"Γίνεται μία φορά από τον διαχειριστή της ιστοσελίδας. Ο κωδικός που θα ορίσεις είναι αυτός που θα χρησιμοποιεί ο ιδιοκτήτης.",
   newPassword:"Νέος κωδικός (τουλάχιστον 8 χαρακτήρες)",repeatPassword:"Επανάληψη κωδικού",saveSetup:"ΑΠΟΘΗΚΕΥΣΗ ΡΥΘΜΙΣΗΣ",back:"← Πίσω",
   appTitle:"Ημέρες κλειστά",appSub:"Πάτα μια ημέρα για να την ορίσεις κλειστή. Πάτα ξανά για να την αφαιρέσεις. Μετά πάτα Αποθήκευση.",
-  legendClosed:"Κλειστά",legendToday:"Σήμερα",upcoming:"Επερχόμενες ημέρες κλειστά",none:"Δεν υπάρχουν επερχόμενες ημέρες κλειστά.",
+  holLabel:"Δημόσιες αργίες Κύπρου",holPick:"+ Πρόσθεσε δημόσια αργία…",holAdded:"✓ ",legendClosed:"Κλειστά",legendToday:"Σήμερα",upcoming:"Επερχόμενες ημέρες κλειστά",none:"Δεν υπάρχουν επερχόμενες ημέρες κλειστά.",
   remove:"ΑΦΑΙΡΕΣΗ",nameEn:"Όνομα (Αγγλικά)",nameEl:"Όνομα (Ελληνικά)",save:"ΑΠΟΘΗΚΕΥΣΗ",saving:"Αποθήκευση…",
   saved:"Αποθηκεύτηκε ✓ Θα φαίνεται στην ιστοσελίδα σε 1–2 λεπτά.",dirty:"Υπάρχουν αλλαγές που δεν αποθηκεύτηκαν",clean:"Όλα αποθηκευμένα",
   wrongPw:"Λάθος κωδικός.",noSetup:"Η σελίδα δεν έχει ρυθμιστεί ακόμα. Επικοινώνησε με τον διαχειριστή.",loading:"Φόρτωση…",
   pwMismatch:"Οι κωδικοί δεν ταιριάζουν.",badToken:"Το token δεν λειτουργεί ή δεν έχει δικαίωμα εγγραφής σε αυτό το repository.",setupDone:"Έτοιμο! Τώρα μπορείς να μπεις με τον νέο κωδικό.",
   netErr:"Πρόβλημα σύνδεσης. Δοκίμασε ξανά.",conflict:"Το αρχείο άλλαξε στο μεταξύ. Φόρτωσα την τελευταία έκδοση — έλεγξε και αποθήκευσε ξανά.",sessionErr:"Η σύνδεση έληξε. Μπες ξανά.",leave:"Έχεις αλλαγές που δεν αποθηκεύτηκαν.",
-  dows:["Δε","Τρ","Τε","Πε","Πα","Σα","Κυ"],months:["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"],
+  dows:["Δε","Τρ","Τε","Πε","Πα","Σα","Κυ"],wd:["Κυρ","Δευ","Τρί","Τετ","Πέμ","Παρ","Σάβ"],months:["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"],
   monthsG:["Ιανουαρίου","Φεβρουαρίου","Μαρτίου","Απριλίου","Μαΐου","Ιουνίου","Ιουλίου","Αυγούστου","Σεπτεμβρίου","Οκτωβρίου","Νοεμβρίου","Δεκεμβρίου"],
   tokenHelp:"<b>Πώς δημιουργείς το GitHub token</b><ol><li>GitHub → Settings → Developer settings → <b>Fine-grained tokens</b> → Generate new token</li><li>Resource owner: <code>ADSolutionsCRM</code> · Repository access: <b>Only select repositories</b> → <code>force-fitness-concept</code></li><li>Permissions → Repository → <b>Contents: Read and write</b></li><li>Expiration: όσο μεγαλύτερη επιτρέπεται</li></ol>Το token αποθηκεύεται κρυπτογραφημένο με τον κωδικό. Όταν λήξει, κάνε ξανά την αρχική ρύθμιση με νέο token."},
  en:{logout:"LOG OUT",loginTitle:"Closed dates",loginSub:"Enter the password to manage the days the gym is closed.",password:"Password",enter:"ENTER",
   setupLink:"First-time setup / change password",setupTitle:"First-time setup",setupSub:"Done once by the website admin. The password you set here is the one the owner will use.",
   newPassword:"New password (at least 8 characters)",repeatPassword:"Repeat password",saveSetup:"SAVE SETUP",back:"← Back",
   appTitle:"Closed dates",appSub:"Tap a day to mark it closed. Tap again to remove it. Then press Save.",
-  legendClosed:"Closed",legendToday:"Today",upcoming:"Upcoming closures",none:"No upcoming closures.",
+  holLabel:"Cyprus public holidays",holPick:"+ Add a public holiday…",holAdded:"✓ ",legendClosed:"Closed",legendToday:"Today",upcoming:"Upcoming closures",none:"No upcoming closures.",
   remove:"REMOVE",nameEn:"Name (English)",nameEl:"Name (Greek)",save:"SAVE",saving:"Saving…",
   saved:"Saved ✓ It will show on the website in 1–2 minutes.",dirty:"You have unsaved changes",clean:"Everything saved",
   wrongPw:"Wrong password.",noSetup:"This page hasn't been set up yet. Please contact the website admin.",loading:"Loading…",
   pwMismatch:"Passwords don't match.",badToken:"The token doesn't work or can't write to this repository.",setupDone:"Done! You can now log in with the new password.",
   netErr:"Connection problem. Please try again.",conflict:"The file changed in the meantime. I loaded the latest version — check and save again.",sessionErr:"Session expired. Please log in again.",leave:"You have unsaved changes.",
-  dows:["Mo","Tu","We","Th","Fr","Sa","Su"],months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  dows:["Mo","Tu","We","Th","Fr","Sa","Su"],wd:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],months:["January","February","March","April","May","June","July","August","September","October","November","December"],
   monthsG:["January","February","March","April","May","June","July","August","September","October","November","December"],
   tokenHelp:"<b>How to create the GitHub token</b><ol><li>GitHub → Settings → Developer settings → <b>Fine-grained tokens</b> → Generate new token</li><li>Resource owner: <code>ADSolutionsCRM</code> · Repository access: <b>Only select repositories</b> → <code>force-fitness-concept</code></li><li>Permissions → Repository → <b>Contents: Read and write</b></li><li>Expiration: the longest allowed</li></ol>The token is stored encrypted with the password. When it expires, run setup again with a new token."}
 };
@@ -289,9 +293,64 @@ function fmtGroup(g){
   return one(s,true)+" – "+one(e,true);
 }
 
+/* ---------- Cyprus public holidays ---------- */
+function orthodoxEaster(y){ // Meeus Julian algorithm, converted to Gregorian (+13 days, valid 1900–2099)
+  var a=y%4,b=y%7,c=y%19,d=(19*c+15)%30,e=(2*a+4*b-d+34)%7,m=Math.floor((d+e+114)/31),day=((d+e+114)%31)+1;
+  var dt=new Date(Date.UTC(y,m-1,day));dt.setUTCDate(dt.getUTCDate()+13);return dIso(dt);
+}
+function cyHolidays(y){
+  var E=orthodoxEaster(y);
+  return [
+    [y+"-01-01","New Year's Day","Πρωτοχρονιά"],
+    [y+"-01-06","Epiphany","Θεοφάνεια"],
+    [addDay(E,-48),"Green Monday","Καθαρά Δευτέρα"],
+    [y+"-03-25","Greek Independence Day","Ευαγγελισμός · 25η Μαρτίου"],
+    [y+"-04-01","Cyprus National Day","Εθνική Επέτειος · 1η Απριλίου"],
+    [addDay(E,-2),"Good Friday","Μεγάλη Παρασκευή"],
+    [addDay(E,-1),"Holy Saturday","Μεγάλο Σάββατο"],
+    [addDay(E,1),"Easter Monday","Δευτέρα του Πάσχα"],
+    [addDay(E,2),"Easter Tuesday","Τρίτη του Πάσχα"],
+    [y+"-05-01","Labour Day","Πρωτομαγιά"],
+    [addDay(E,50),"Kataklysmos","Κατακλυσμός · Αγίου Πνεύματος"],
+    [y+"-08-15","Assumption Day","Κοίμηση της Θεοτόκου"],
+    [y+"-10-01","Cyprus Independence Day","Ημέρα Ανεξαρτησίας"],
+    [y+"-10-28","Ochi Day","Επέτειος του Όχι"],
+    [y+"-12-24","Christmas Eve","Παραμονή Χριστουγέννων"],
+    [y+"-12-25","Christmas Day","Χριστούγεννα"],
+    [y+"-12-26","Boxing Day","Δεύτερη μέρα Χριστουγέννων"],
+    [y+"-12-31","New Year's Eve","Παραμονή Πρωτοχρονιάς"]
+  ];
+}
+function upcomingHolidays(){
+  var y=+today.slice(0,4),end=addDay(today,400);
+  return cyHolidays(y).concat(cyHolidays(y+1)).filter(function(h){return h[0]>=today&&h[0]<=end}).sort(function(a,b){return a[0]<b[0]?-1:1})
+    .reduce(function(out,h){var last=out[out.length-1];if(last&&last[0]===h[0]){last[1]+=" / "+h[1];last[2]+=" / "+h[2]}else out.push(h.slice());return out},[]);
+}
+function renderHolidays(){
+  var sel=$("hol");if(!sel)return;
+  var M=t("monthsG"),W=t("wd");
+  sel.innerHTML="";
+  var first=document.createElement("option");first.value="";first.textContent=t("holPick");sel.appendChild(first);
+  upcomingHolidays().forEach(function(h){
+    var d=parseIso(h[0]),o=document.createElement("option");
+    o.value=h.join("|");
+    o.textContent=(days[h[0]]?t("holAdded"):"")+W[d.getUTCDay()]+" "+d.getUTCDate()+" "+M[d.getUTCMonth()]+" "+d.getUTCFullYear()+" — "+(lang==="el"?h[2]:h[1]);
+    sel.appendChild(o);
+  });
+  sel.value="";
+}
+$("hol").onchange=function(){
+  var v=this.value;if(!v)return;
+  var p=v.split("|");
+  days[p[0]]={en:p[1],el:p[2]};
+  viewY=+p[0].slice(0,4);viewM=+p[0].slice(5,7);
+  renderCal();renderList();renderState();
+};
+
 /* ---------- calendar UI ---------- */
 var today=todayIso(), viewY=+today.slice(0,4), viewM=+today.slice(5,7);
 function renderCal(){
+  renderHolidays();
   $("monthLabel").textContent=t("months")[viewM-1]+" "+viewY;
   $("prev").disabled=(viewY*12+viewM)<=(+today.slice(0,4)*12+ +today.slice(5,7));
   var g=$("grid");g.innerHTML="";
