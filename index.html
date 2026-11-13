@@ -141,7 +141,16 @@ body.menu-open .menu-btn span:nth-child(3){transform:translateY(-5px) rotate(-45
 
 /* FLAGSHIP INTRO */
 .brand-intro{position:fixed;z-index:30000;inset:0;display:grid;place-items:center;background:#01050a;opacity:0;visibility:hidden;pointer-events:none;overflow:hidden;will-change:clip-path,opacity}
-.brand-intro.play{opacity:1;visibility:visible;pointer-events:auto;animation:introExit .72s cubic-bezier(.77,0,.18,1) 1.62s forwards}
+.brand-intro.play{opacity:1;visibility:visible;pointer-events:auto}
+.brand-intro.exit{animation:introExit .72s cubic-bezier(.77,0,.18,1) forwards}
+html.intro-lock,html.intro-lock body{overflow:hidden}
+.intro-enter{display:flex;gap:10px;margin-top:30px;opacity:0;transform:translateY(10px);animation:introTag .55s ease 1.15s forwards}
+.intro-enter button{height:48px;padding:0 20px;border:1px solid rgba(45,182,255,.45);background:rgba(2,10,18,.6);color:#dcefff;font:800 10px/1 inherit;font-family:inherit;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:background .2s,border-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.intro-enter button:hover{border-color:var(--blue2);color:#fff}
+.intro-enter .with{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 30px rgba(7,140,255,.45)}
+.intro-enter .with:hover{background:#1a98ff}
+.intro-enter svg{width:16px;height:16px;flex:0 0 auto}
+@media(max-width:520px){.intro-enter{flex-direction:column;width:min(300px,80vw)}.intro-enter button{justify-content:center}}
 .brand-intro:before{content:"";position:absolute;width:min(780px,90vw);height:min(780px,90vw);border-radius:50%;background:radial-gradient(circle,rgba(7,140,255,.20) 0%,rgba(7,140,255,.05) 34%,transparent 70%);filter:blur(10px);opacity:0;transform:scale(.68);animation:introGlow 1.25s ease .12s forwards}
 .brand-intro:after{content:"";position:absolute;top:0;bottom:0;width:1px;left:50%;background:linear-gradient(transparent,rgba(45,182,255,.95),transparent);box-shadow:0 0 28px rgba(7,140,255,.85);opacity:0;transform:translateX(-50%) scaleY(.25);animation:introBeam .85s ease .18s forwards}
 .intro-core{position:relative;z-index:2;text-align:center;display:grid;justify-items:center;padding:24px}
@@ -610,10 +619,13 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   transition:opacity .25s ease,transform .25s ease,visibility .25s ease,background .2s ease,border-color .2s ease;
   cursor:pointer;
 }
-.back-to-top svg{width:18px;height:18px;filter:drop-shadow(0 0 7px rgba(45,182,255,.7))}
+.back-to-top .btt-turn{position:relative;width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:transform .55s cubic-bezier(.68,-.35,.27,1.35)}
+.back-to-top .btt-turn img{width:22px;height:22px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(45,182,255,.55))}
+.back-to-top .btt-turn svg{position:absolute;left:50%;bottom:-8px;width:12px;height:12px;margin-left:-6px;color:#2db6ff;filter:drop-shadow(0 0 5px rgba(45,182,255,.9))}
+.back-to-top.up .btt-turn{transform:rotate(180deg)}
+body.menu-open .back-to-top{opacity:0!important;pointer-events:none!important}
 .back-to-top.show{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto}
 .back-to-top:active{transform:scale(.94)}
-@media(min-width:761px){.back-to-top{display:none}}
 
 @media(prefers-reduced-motion:reduce){
   .brand-intro{display:none!important}
@@ -624,11 +636,15 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
 </head>
 <body>
 
-<div class="brand-intro" id="brandIntro" aria-hidden="true">
+<div class="brand-intro" id="brandIntro" role="dialog" aria-label="Force Fitness Club">
   <div class="intro-core">
     <img class="intro-logo" src="https://raw.githubusercontent.com/ADSolutionsCRM/force-fitness-coming-soon/main/force-logo-white.png" alt="">
     <div class="intro-rule"></div>
     <div class="intro-tag">TRAIN · BELONG · EVOLVE</div>
+    <div class="intro-enter">
+      <button type="button" class="with" id="introSound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg><span data-el="ΕΙΣΟΔΟΣ ΜΕ ΗΧΟ" data-en="ENTER WITH SOUND">ENTER WITH SOUND</span></button>
+      <button type="button" class="without" id="introSilent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6"/><path d="m21 9-5 6"/></svg><span data-el="ΧΩΡΙΣ ΗΧΟ" data-en="WITHOUT SOUND">WITHOUT SOUND</span></button>
+    </div>
   </div>
   <div class="intro-word">A STRONGER YOU.</div>
 </div>
@@ -973,10 +989,8 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   </div>
   <button class="lightbox-nav" id="lightboxNext" aria-label="Next">›</button>
 </div>
-<button class="back-to-top" id="backToTop" type="button" aria-label="Back to top" title="Back to top">
-  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M6 15l6-6 6 6"></path>
-  </svg>
+<button class="back-to-top" id="backToTop" type="button" aria-label="Scroll down" title="Scroll down">
+  <span class="btt-turn"><img src="assets/force-monogram.png" alt="" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></span>
 </button>
 
 <script>
@@ -990,13 +1004,20 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   var seenIntro=false;
   try{seenIntro=sessionStorage.getItem("force-intro-seen")==="1"}catch(e){}
   if(brandIntro&&!reduceIntro&&!seenIntro&&window.scrollY<8){
-    requestAnimationFrame(function(){
-      brandIntro.classList.add("play");
-      setTimeout(function(){
-        brandIntro.classList.add("done");
-        try{sessionStorage.setItem("force-intro-seen","1")}catch(e){}
-      },2380);
-    });
+    document.documentElement.classList.add("intro-lock");
+    requestAnimationFrame(function(){brandIntro.classList.add("play")});
+    var introLeaving=false;
+    var leaveIntro=function(withSound){
+      if(introLeaving)return;introLeaving=true;
+      try{sessionStorage.setItem("force-intro-seen","1")}catch(e){}
+      if(window.ForceSound){if(withSound)window.ForceSound.on();else window.ForceSound.off()}
+      brandIntro.classList.add("exit");
+      document.documentElement.classList.remove("intro-lock");
+      setTimeout(function(){brandIntro.classList.add("done")},740);
+    };
+    document.getElementById("introSound").addEventListener("click",function(){leaveIntro(true)});
+    document.getElementById("introSilent").addEventListener("click",function(){leaveIntro(false)});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!introLeaving&&!brandIntro.classList.contains("done"))leaveIntro(false)});
   }else if(brandIntro){
     brandIntro.classList.add("done");
   }
@@ -1112,14 +1133,31 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
   }
   var backToTop=document.getElementById("backToTop");
   if(backToTop){
+    // top half of the page: monogram points down (go down); bottom half: it turns and points up (back to top)
+    function scrollPos(){return window.scrollY||document.documentElement.scrollTop||0}
     function syncBackToTop(){
-      var show=(window.scrollY||document.documentElement.scrollTop||0)>520;
-      backToTop.classList.toggle("show",show);
+      var max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+      var up=scrollPos()>max*.5;
+      backToTop.classList.add("show");
+      if(backToTop.classList.contains("up")!==up){
+        backToTop.classList.toggle("up",up);
+        var el=document.documentElement.lang==="el";
+        var label=up?(el?"Επιστροφή στην κορυφή":"Back to top"):(el?"Κύλιση προς τα κάτω":"Scroll down");
+        backToTop.setAttribute("aria-label",label);backToTop.title=label;
+      }
     }
     window.addEventListener("scroll",syncBackToTop,{passive:true});
+    window.addEventListener("resize",syncBackToTop);
     backToTop.addEventListener("click",function(){
       var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({top:0,behavior:reduced?"auto":"smooth"});
+      var behavior=reduced?"auto":"smooth";
+      if(backToTop.classList.contains("up")){window.scrollTo({top:0,behavior:behavior});return}
+      var y=scrollPos(),offset=(document.querySelector(".header")||{}).offsetHeight||70,target=null;
+      document.querySelectorAll("main section, body > section, section[id]").forEach(function(sec){
+        var top=sec.getBoundingClientRect().top+y-offset;
+        if(target===null&&top>y+window.innerHeight*.35&&sec.offsetHeight>window.innerHeight*.3)target=top;
+      });
+      window.scrollTo({top:target===null?y+window.innerHeight*.85:target,behavior:behavior});
     });
     syncBackToTop();
   }

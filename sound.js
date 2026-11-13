@@ -239,8 +239,11 @@ if(pref==="on"){
   document.addEventListener("pointerdown",resume,true);document.addEventListener("keydown",resume,true);
 }else if(pref!=="off"){
   // first visit: gentle hint after the intro
-  setTimeout(function(){if(!enabled){hint.classList.add("show");setTimeout(function(){hint.classList.remove("show")},5000)}},2800);
+  setTimeout(function(){if(!enabled&&!getPref()&&!document.documentElement.classList.contains("intro-lock")){hint.classList.add("show");setTimeout(function(){hint.classList.remove("show")},5000)}},2800);
 }
+
+// used by the opening screen's "Enter with sound / Without sound" buttons
+window.ForceSound={on:function(){hint.classList.remove("show");turnOn(true)},off:function(){hint.classList.remove("show");turnOff()}};
 
 /* ---------- interaction sounds ---------- */
 document.addEventListener("click",function(e){
