@@ -376,7 +376,7 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
 .closure-note[hidden]{display:none!important}
 .closure-note{margin-top:16px;padding:14px 16px;border-left:2px solid var(--blue);background:rgba(7,140,255,.07)}
 .closure-note b{display:block;color:#dcecff;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
-.closure-note span{display:block;margin-top:6px;color:#8ea1b1;font-size:11px;line-height:1.55}
+.closure-note span{display:block;white-space:pre-line;margin-top:6px;color:#8ea1b1;font-size:11px;line-height:1.55}
 .visit-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 
 /* FOOTER */
@@ -923,7 +923,7 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
           <div class="visit-meta-card"><b data-el="ΕΠΙΚΟΙΝΩΝΙΑ" data-en="CONTACT">CONTACT</b><span><a href="tel:+35794302303">+357 94 302303</a></span></div>
         </div>
         <div class="closure-note" id="holidayClosure" hidden>
-          <b data-el="ΕΠΕΡΧΟΜΕΝΕΣ ΗΜΕΡΕΣ ΚΛΕΙΣΤΑ" data-en="UPCOMING CLOSURES">UPCOMING CLOSURES</b>
+          <b data-el="ΑΡΓΙΕΣ & ΕΙΔΙΚΟ ΩΡΑΡΙΟ" data-en="CLOSURES & SPECIAL HOURS">CLOSURES & SPECIAL HOURS</b>
           <span id="holidayClosureDates"></span>
         </div>
         <div class="hours">
@@ -1148,11 +1148,12 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
     text.split(/\r?\n/).forEach(function(line){
       line=line.trim();if(!line||line.charAt(0)==="#")return;
       var parts=line.split("|").map(function(x){return x.trim()});
+      var hours="";parts=parts.filter(function(x,i){var m=i>0&&/^(\d{1,2}):(\d{2})\s*(?:-|–|—|to)\s*(\d{1,2}):(\d{2})$/i.exec(x);if(m){hours=(m[1].length<2?"0":"")+m[1]+":"+m[2]+"–"+(m[3].length<2?"0":"")+m[3]+":"+m[4];return false}return true});
       var range=parts[0].split(/\s+(?:to|-|–|—)\s+|\s*(?:–|—)\s*/i);
       var start=toKey(range[0]),end=range[1]?toKey(range[1]):start;
       if(!start||!end)return;
       if(end<start){var t=start;start=end;end=t;}
-      out.push({start:start,end:end,en:parts[1]||"",el:parts[2]||parts[1]||""});
+      out.push({start:start,end:end,en:parts[1]||"",el:parts[2]||parts[1]||"",hours:hours});
     });
     return out.sort(function(a,b){return a.start-b.start});
   }
@@ -1176,14 +1177,19 @@ padding:54px;display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-item
       var soon=upcoming.filter(function(c){return today>=addDays(c.start,-NOTICE_DAYS_BEFORE)});
       if(soon.length){
         var c=soon[0],name=lang==="el"?c.el:c.en;
-        holidayAlertTitle.textContent=lang==="el"?"ΕΝΗΜΕΡΩΣΗ ΑΡΓΙΑΣ":"PUBLIC HOLIDAY NOTICE";
-        holidayAlertDate.textContent=(lang==="el"?"ΚΛΕΙΣΤΑ · ":"CLOSED · ")+fmt(c,lang,true)+(name?" · "+upperNoAccent(name):"");
+        if(c.hours){
+          holidayAlertTitle.textContent=lang==="el"?"ΕΙΔΙΚΟ ΩΡΑΡΙΟ":"SPECIAL OPENING HOURS";
+          holidayAlertDate.textContent=fmt(c,lang,true)+" · "+(lang==="el"?"ΑΝΟΙΧΤΑ ":"OPEN ")+c.hours+(name?" · "+upperNoAccent(name):"");
+        }else{
+          holidayAlertTitle.textContent=lang==="el"?"ΕΝΗΜΕΡΩΣΗ ΑΡΓΙΑΣ":"PUBLIC HOLIDAY NOTICE";
+          holidayAlertDate.textContent=(lang==="el"?"ΚΛΕΙΣΤΑ · ":"CLOSED · ")+fmt(c,lang,true)+(name?" · "+upperNoAccent(name):"");
+        }
         holidayAlert.hidden=false;
       }else holidayAlert.hidden=true;
     }
     if(closureNote&&closureDates){
       var list=upcoming.slice(0,MAX_LISTED);
-      closureDates.textContent=list.map(function(c){var name=lang==="el"?c.el:c.en;return fmt(c,lang,false)+(name?" ("+name+")":"")}).join(" · ");
+      closureDates.textContent=list.map(function(c){var name=lang==="el"?c.el:c.en;return fmt(c,lang,false)+(name?" ("+name+")":"")+(c.hours?" – "+(lang==="el"?"ανοιχτά ":"open ")+c.hours:" – "+(lang==="el"?"κλειστά":"closed"))}).join("\n");
       closureNote.hidden=!list.length;
     }
   }
