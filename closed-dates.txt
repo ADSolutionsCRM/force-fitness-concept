@@ -6,6 +6,7 @@
 #   Several days:    2026-12-24 to 2026-12-26
 #   With a name:     2026-12-25 | Christmas Day | Χριστούγεννα
 #                    (English name first, then Greek — both optional)
+#   Special hours:   2026-12-24 | Christmas Eve | Παραμονή | 06:30-14:00
 #
 # The website shows a notice bar 3 days before each closure, lists
 # upcoming closures in the Visit section, and hides them once passed.
@@ -13,6 +14,6 @@
 # ---------------------------------------------------------------
 2026-10-01 | Cyprus Independence Day | Ημέρα Ανεξαρτησίας
 2026-10-28 | Ochi Day | Επέτειος του Όχι
-2026-12-24 | Christmas Eve | Παραμονή Χριστουγέννων
+2026-12-24 | Christmas Eve | Παραμονή Χριστουγέννων | 08:00-16:00
 2026-12-25 | Christmas Day | Χριστούγεννα
 2026-12-26 | Boxing Day | Δεύτερη μέρα Χριστουγέννων
