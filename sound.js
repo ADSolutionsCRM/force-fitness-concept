@@ -55,7 +55,7 @@ function init(){
 
 /* ---------- music ----------
    Five original styles. Pick the site default with DEFAULT_STYLE; preview any with ?sound=<name>. */
-var DEFAULT_STYLE="pulse";
+var DEFAULT_STYLE="power";
 var STYLE=(function(){var m=/[?&]sound=([a-z]+)/.exec(location.search);return m?m[1]:DEFAULT_STYLE})();
 
 function distCurve(k){var n=1024,c=new Float32Array(n);for(var i=0;i<n;i++){var x=i*2/n-1;c[i]=(1+k)*x/(1+k*Math.abs(x))}return c}
