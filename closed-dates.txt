@@ -1,19 +1,16 @@
 # FORCE FITNESS CLUB — CLOSED DATES
 #
-# Add one line per closure. The website updates by itself:
-#   - a notice bar appears at the top of the site 3 days before
-#   - the date is listed under "Upcoming closures" in the Visit section
-#   - both disappear automatically once the date has passed
-#
-# HOW TO WRITE A LINE
+# Easiest way to edit: forcefitnesscy.com/admin (password protected).
+# You can also edit this file directly — one line per closure:
 #   Single day:      2026-12-25
 #   Several days:    2026-12-24 to 2026-12-26
 #   With a name:     2026-12-25 | Christmas Day | Χριστούγεννα
 #                    (English name first, then Greek — both optional)
 #
-# Dates are YEAR-MONTH-DAY. Lines starting with # are ignored.
-# Old dates can stay in the file or be deleted — it makes no difference.
+# The website shows a notice bar 3 days before each closure, lists
+# upcoming closures in the Visit section, and hides them once passed.
+# Lines starting with # are ignored.
 # ---------------------------------------------------------------
-
 2026-10-01 | Cyprus Independence Day | Ημέρα Ανεξαρτησίας
 2026-10-28 | Ochi Day | Επέτειος του Όχι
+2027-06-30
