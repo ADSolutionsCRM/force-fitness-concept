@@ -1,5 +1,6 @@
 /* FORCE FITNESS CLUB — immersive sound
-   Original music and effects generated live with the Web Audio API (no audio files, no licensing).
+   Music: the Force Fitness track "Impact Drive" (audio/impact-drive.m4a), looped. Set MUSIC_FILE="" to fall back
+   to the original live-generated Web Audio music. Effects are generated live with the Web Audio API.
    Off by default; visitors switch it on with the speaker button (browsers require a tap before sound). */
 (function(){
 "use strict";
@@ -7,6 +8,8 @@ var AC=window.AudioContext||window.webkitAudioContext;
 if(!AC)return;
 
 var PREF_KEY="force-sound";
+var MUSIC_FILE="audio/impact-drive.m4a?v=1", FILE_LEVEL=.85;
+var audioEl=null;
 var MUSIC_LEVEL=.5, SFX_LEVEL=.55, DUCK_LEVEL=.07;
 
 var ctx=null, master, musicBus, padBus, sfxBus, reverb, delay, noiseBuf;
@@ -237,9 +240,19 @@ function playStep(i,t){
 function scheduler(){
   while(nextStep<ctx.currentTime+.18){playStep(stepIndex,nextStep);nextStep+=STEP;stepIndex++}
 }
+function musicLevel(){return MUSIC_FILE?FILE_LEVEL:MUSIC_LEVEL*ST.level}
 function startMusic(){
+  if(MUSIC_FILE){
+    if(!audioEl){
+      audioEl=new Audio(MUSIC_FILE);audioEl.loop=true;audioEl.preload="auto";audioEl.setAttribute("playsinline","");
+      try{ctx.createMediaElementSource(audioEl).connect(musicBus)}catch(e){}
+    }
+    started=true;musicBus.gain.value=musicLevel();
+    var pr=audioEl.play();if(pr&&pr.catch)pr.catch(function(){});
+    return;
+  }
   if(started)return;started=true;
-  musicBus.gain.value=MUSIC_LEVEL*ST.level;
+  musicBus.gain.value=musicLevel();
   nextStep=ctx.currentTime+.08;stepIndex=0;
   timer=setInterval(scheduler,40);scheduler();
 }
@@ -289,7 +302,7 @@ function turnOn(withImpact){
 function turnOff(){
   enabled=false;setPref("off");render();
   if(!ctx)return;fadeTo(master.gain,0,.6);
-  setTimeout(function(){if(!enabled&&ctx.state==="running")ctx.suspend()},700);
+  setTimeout(function(){if(!enabled){if(audioEl)audioEl.pause();if(ctx.state==="running")ctx.suspend()}},700);
 }
 
 /* ---------- button ---------- */
@@ -367,14 +380,14 @@ document.addEventListener("play",function(e){
 ["pause","ended"].forEach(function(ev){
   document.addEventListener(ev,function(e){
     if(e.target.tagName!=="VIDEO"||e.target.muted)return;
-    ducked=false;if(ctx&&enabled)fadeTo(musicBus.gain,MUSIC_LEVEL*ST.level,1.2);
+    ducked=false;if(ctx&&enabled)fadeTo(musicBus.gain,musicLevel(),1.2);
   },true);
 });
 
 // pause everything when the tab is hidden
 document.addEventListener("visibilitychange",function(){
   if(!ctx)return;
-  if(document.hidden){if(ctx.state==="running")ctx.suspend()}
-  else if(enabled&&started)ctx.resume();
+  if(document.hidden){if(audioEl)audioEl.pause();if(ctx.state==="running")ctx.suspend()}
+  else if(enabled&&started){ctx.resume();if(audioEl){var pr=audioEl.play();if(pr&&pr.catch)pr.catch(function(){})}}
 });
 })();
